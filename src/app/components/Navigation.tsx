@@ -21,7 +21,7 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
         <div className="flex items-center h-16 gap-12">
           <div className="flex items-center gap-3">
             <img
-              src="/Design-Space-Explorer/icons/website_icon_rocks.png"
+              src={`${import.meta.env.BASE_URL}icons/website_icon_rocks.png`}
               alt="Website Icon"
               className="h-20 w-20 object-contain"
             />
