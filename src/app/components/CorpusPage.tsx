@@ -41,7 +41,7 @@ const withBase = (relPath: string) => {
 };
 
 // Coding interface — update this URL once deployed to GitHub Pages
-const CODER_BASE_URL = "https://spiliour.github.io/phys-insp-visualization-coder";
+const CODER_BASE_URL = "https://physically-inspired-vis.github.io/coder";
 
 // Set of corpus IDs that have a coded example in the coder tool
 const CODER_IDS = new Set([

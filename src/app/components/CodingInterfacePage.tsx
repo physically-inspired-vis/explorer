@@ -1,4 +1,4 @@
-const CODER_URL = "https://spiliour.github.io/phys-insp-visualization-coder";
+const CODER_URL = "https://physically-inspired-vis.github.io/coder";
 
 // BASE_URL-safe helper (works on GitHub Pages subpaths)
 const withBase = (relPath: string) => {
