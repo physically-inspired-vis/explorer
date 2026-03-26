@@ -569,14 +569,12 @@ export function CorpusPage() {
                       <span>🔗</span> Link
                     </button>
                   )}
-                  {getCoderUrl(item.id) && (
-                    <button
-                      onClick={() => window.open(getCoderUrl(item.id)!, "_blank", "noopener,noreferrer")}
-                      className="flex-1 px-3 py-1.5 bg-zinc-950 hover:bg-zinc-800 text-white rounded text-xs font-medium transition-colors"
-                    >
-                      Open coding
-                    </button>
-                  )}
+                  <button
+                    onClick={() => window.open(getCoderUrl(item.id), "_blank", "noopener,noreferrer")}
+                    className="flex-1 px-3 py-1.5 bg-zinc-950 hover:bg-zinc-800 text-white rounded text-xs font-medium transition-colors"
+                  >
+                    Open coding
+                  </button>
                 </div>
               </CardContent>
             </Card>
@@ -644,14 +642,12 @@ export function CorpusPage() {
                   <span>🔗</span> Link
                 </button>
               )}
-              {getCoderUrl(modalItem.id) && (
-                <button
-                  onClick={() => window.open(getCoderUrl(modalItem.id)!, "_blank", "noopener,noreferrer")}
-                  className="flex-1 px-4 py-2 bg-zinc-950 hover:bg-zinc-800 text-white rounded text-sm font-medium transition-colors"
-                >
-                  Open coding
-                </button>
-              )}
+              <button
+                onClick={() => window.open(getCoderUrl(modalItem.id), "_blank", "noopener,noreferrer")}
+                className="flex-1 px-4 py-2 bg-zinc-950 hover:bg-zinc-800 text-white rounded text-sm font-medium transition-colors"
+              >
+                Open coding
+              </button>
             </div>
           </div>
         </div>
