@@ -43,20 +43,10 @@ const withBase = (relPath: string) => {
 // Coding interface — update this URL once deployed to GitHub Pages
 const CODER_BASE_URL = "https://physically-inspired-vis.github.io/coder";
 
-// Set of corpus IDs that have a coded example in the coder tool
-const CODER_IDS = new Set([
-  "007","008","012","013","014","015","016","017","018","019",
-  "020","021","022","023","024","025","027","028","029","030",
-  "032","033","038","039","041","043","044","047","048","049",
-  "051","052","053","055","056","057","059","060","064","066",
-  "067","068","069","070","071","072","073","074","075","076",
-  "082","083","084","086","087","088","089","090","091",
-]);
-
-// Derive the coder numeric ID from a corpus item ID (e.g. "ex-007" → "007")
-const getCoderUrl = (itemId: string | number): string | null => {
+// Derive the coder URL from a corpus item ID (e.g. "ex-007" → ".../?example=007")
+const getCoderUrl = (itemId: string | number): string => {
   const numeric = String(itemId).replace(/^ex-/, "");
-  return CODER_IDS.has(numeric) ? `${CODER_BASE_URL}/?example=${numeric}` : null;
+  return `${CODER_BASE_URL}/?example=${numeric}`;
 };
 
 // Inline SVG placeholder (no extra file needed)
