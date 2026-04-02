@@ -6,12 +6,18 @@ const withBase = (relPath: string) => {
 
 export function OverviewPage() {
   return (
-    <div className="h-[calc(100vh-65px)] p-8 overflow-auto flex items-center justify-center">
+    <div className="p-8 overflow-auto flex flex-col items-center gap-8">
+      <img
+        src={withBase("resources/framing.png")}
+        alt="Framing"
+        className="h-auto"
+        style={{ width: "42%" }}
+      />
       <img
         src={withBase("resources/design space.png")}
         alt="Design Space"
-        className="max-w-full h-auto"
-        style={{ maxHeight: "calc(100vh - 130px)" }}
+        className="h-auto"
+        style={{ width: "75%" }}
       />
     </div>
   );

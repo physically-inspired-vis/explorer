@@ -7,11 +7,11 @@ interface NavigationProps {
 
 const tabs = [
   { id: "overview", label: "Overview" },
-  { id: "design-space", label: "Design Space" },
+  // { id: "design-space", label: "Design Space" },
   { id: "corpus", label: "Corpus" },
   { id: "coding-interface", label: "Coding Interface" },
   // { id: "inspiration-set", label: "Inspiration Set" },
-  { id: "about", label: "Resources" },
+  // { id: "about", label: "Resources" },
 ];
 
 export function Navigation({ activeTab, onTabChange }: NavigationProps) {
