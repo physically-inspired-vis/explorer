@@ -122,53 +122,44 @@
           ]
         },
         {
-          "id": "metaphorical-proximity-to-data",
-          "label": "Metaphorical Proximity to Data",
-          "description": "Degree to which the physically-inspired representation is semantically related to the associated data variables or theme. Indexical mappings are closest, symbolic are furthest, and iconic fall in between.",
-          "color": "#f06952",
-          "icon": "icons/data.png",
+          "id": "visual-realism",
+          "label": "Visual Realism",
+          "description": "This dimension focuses on photorealism in digital media: material appearance, lighting and shading, texture detail, shadows, and depth cues (e.g., perspective). It evaluates how “photo-like” the element looks, independent of what it represents or how abstract this representation may be. We also don’t evaluate how well its motion matches what it represents (captured in real-world representation).",
+          "color": "#f06951",
+          "icon": "icons/realism.png",
           "order": 3,
           "cards": [
             {
-              "id": "low-proximity-symbolic",
-              "title": "Low Proximity (Symbolic)",
-              "description": "The visual element does not resemble the associated data/theme, the connection between them must be learned from conventions.",
-              "details": [
-                "No resemblance to data",
-                "Requires learned conventions",
-                "Abstract relationship"
-              ],
+              "id": "low-realism",
+              "title": "Low (Stylized)",
+              "description": "The element is highly stylized, with minimal or no attempt to imitate a photorealistic appearance.",
+              "details": [],
+              "example": "ex-014",
               "order": 1
             },
             {
-              "id": "intermediate-proximity-iconic",
-              "title": "Intermediate Proximity (Iconic)",
-              "description": "The visual element shares some similar qualities or resembles in an intuitive way the associated data/theme.",
-              "details": [
-                "Shares similar qualities",
-                "Intuitive resemblance",
-                "Some visual connection"
-              ],
+              "id": "intermediate-realism",
+              "title": "Intermediate (Mixed Realism)",
+              "description": "The element includes some realistic aspects, such as depth, lighting, or texture, but these are mixed with stylized aspects.",
+              "details": [],
+              "example": "ex-010",
               "order": 2
             },
             {
-              "id": "high-proximity-literal",
-              "title": "High Proximity (Literal)",
-              "description": "The visual element is closely (physically/causally) connected to the data/theme.",
-              "details": [
-                "Close physical connection",
-                "Causal relationship",
-                "Direct representation"
-              ],
+              "id": "high-realism",
+              "title": "High (Visually Realistic)",
+              "description": "Strong resemblance to physical reality through detailed materials, lighting, shadows, and depth cues. Photographs of physical artefacts also belong to this category.",
+              "details": [],
+              "example": "ex-076",
               "order": 3
             }
           ]
         },
         {
-          "id": "metaphorical-proximity-to-reality",
-          "label": "Metaphorical Proximity to Reality",
+          "id": "real-world-familiarity",
+          "label": "Real-World Familiarity",
           "description": "Degree to which the metaphor matches audiences’ real-world knowledge and experience. It corresponds to the level of familiarity with the mental image and perceptual affordances conveyed by the visual element.",
-          "color": "#f06953",
+          "color": "#f06951",
           "icon": "icons/reality.png",
           "order": 4,
           "cards": [
@@ -181,6 +172,7 @@
                 "Unfamiliar to most",
                 "Limited real-world connection"
               ],
+              "example": "ex-038",
               "order": 1
             },
             {
@@ -192,6 +184,7 @@
                 "Known but not common",
                 "Moderate recognition"
               ],
+              "example": "ex-014",
               "order": 2
             },
             {
@@ -203,6 +196,53 @@
                 "Highly recognizable",
                 "Strong real-world knowledge"
               ],
+              "example": "ex-076",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": "metaphorical-proximity-to-data",
+          "label": "Metaphorical Proximity to Data",
+          "description": "Degree to which the physically-inspired representation is semantically related to the associated data variables or theme. Indexical mappings are closest, symbolic are furthest, and iconic fall in between.",
+          "color": "#f06951",
+          "icon": "icons/data.png",
+          "order": 5,
+          "cards": [
+            {
+              "id": "low-proximity-symbolic",
+              "title": "Low Proximity (Symbolic)",
+              "description": "The visual element does not resemble the associated data/theme, the connection between them must be learned from conventions.",
+              "details": [
+                "No resemblance to data",
+                "Requires learned conventions",
+                "Abstract relationship"
+              ],
+              "example": "ex-025",
+              "order": 1
+            },
+            {
+              "id": "intermediate-proximity-iconic",
+              "title": "Intermediate Proximity (Iconic)",
+              "description": "The visual element shares some similar qualities or resembles in an intuitive way the associated data/theme.",
+              "details": [
+                "Shares similar qualities",
+                "Intuitive resemblance",
+                "Some visual connection"
+              ],
+              "example": "ex-014",
+              "order": 2
+            },
+            {
+              "id": "high-proximity-literal",
+              "title": "High Proximity (Literal)",
+              "description": "The visual element is closely (physically/causally) connected to the data/theme.",
+              "details": [
+                "Close physical connection",
+                "Causal relationship",
+                "Direct representation"
+              ],
+              "example": "ex-076",
               "order": 3
             }
           ]
@@ -361,6 +401,7 @@
               "id": "segment-cut",
               "title": "Segment / Cut",
               "details": [],
+              "image": "design_space_static/cut.png",
               "example": "ex-004",
               "order": 999
             }
@@ -379,6 +420,7 @@
               "title": "Count",
               "description": "Focus is on the number of objects that make up the population.",
               "details": [],
+              "image": "design_space_static/count.png",
               "example": "ex-073",
               "order": 1
             },
@@ -391,13 +433,112 @@
               "order": 2
             },
             {
-              "id": "spatial-arrangement",
-              "title": "Spatial Arrangement",
+              "id": "adjacent_placement",
+              "title": "Adjacent Placement",
               "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
               "details": [],
-              "image": "design_space_static/arrangement.png",
-              "example": "ex-024",
-              "order": 3
+              "image": "spatial_arrangement/adjacent_placement.png",
+              "example": "ex-020",
+              "order": 999
+            },
+            {
+              "id": "alignment",
+              "title": "Alignment",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/alignment.png",
+              "example": "ex-027",
+              "order": 999
+            },
+            {
+              "id": "bonding",
+              "title": "Bonding",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/bonding.png",
+              "example": "ex-064",
+              "order": 999
+            },
+            {
+              "id": "branching",
+              "title": "Branching",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/branching.png",
+              "example": "ex-056",
+              "order": 999
+            },
+            {
+              "id": "clustering",
+              "title": "Clustering",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/clustering.png",
+              "example": "ex-005",
+              "order": 999
+            },
+            {
+              "id": "geographical_placement",
+              "title": "Geographical Placement",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/geographical_placement.png",
+              "example": "ex-058",
+              "order": 999
+            },
+            {
+              "id": "packing",
+              "title": "Packing",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/packing.png",
+              "example": "ex-055",
+              "order": 999
+            },
+            {
+              "id": "piling",
+              "title": "Piling",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/piling.png",
+              "example": "ex-049",
+              "order": 999
+            },
+            {
+              "id": "scattering",
+              "title": "Scattering",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/scattering.png",
+              "example": "ex-080",
+              "order": 999
+            },
+            {
+              "id": "stacking",
+              "title": "Stacking",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/stacking.png",
+              "example": "ex-010",
+              "order": 999
+            },
+            {
+              "id": "topological_placement",
+              "title": "Topological Placement",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/topological_placement.png",
+              "example": "ex-087",
+              "order": 999
+            },
+            {
+              "id": "trajectory",
+              "title": "Trajectory",
+              "description": "The spatial arrangement or topological patterns applied to objects inside the population.",
+              "details": [],
+              "image": "spatial_arrangement/trajectory.png",
+              "example": "ex-052",
+              "order": 999
             }
           ]
         },
@@ -458,6 +599,7 @@
               "title": "Speed",
               "description": "The rate of change or motion, representing velocity or pace.",
               "details": [],
+              "image": "design_space_static/speed.png",
               "example": "ex-087",
               "order": 2
             },
@@ -481,7 +623,7 @@
           "id": "attribute-function",
           "label": "Attribute Function",
           "description": "The attribute function specifies the primary role a physical attribute plays in the visualization.",
-          "color": "#d494ff",
+          "color": "#6D451A",
           "icon": "icons/function.png",
           "order": 1,
           "cards": [
@@ -504,7 +646,7 @@
         {
           "id": "motion",
           "label": "Motion",
-          "color": "#d494ff",
+          "color": "#6D451A",
           "icon": "icons/motion.png",
           "order": 2,
           "cards": [
@@ -528,7 +670,7 @@
           "id": "semantic-congruence",
           "label": "Semantic Congruence",
           "description": "Degree to which an encoding’s perceived meaning directly conveys the encoded data variable. It is low when the mapping is immediately interpretable and high when it is arbitrary or requires substantial inference.",
-          "color": "#d494ff",
+          "color": "#6D451A",
           "icon": "icons/congruence.png",
           "order": 3,
           "cards": [

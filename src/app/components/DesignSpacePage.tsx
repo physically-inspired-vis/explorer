@@ -114,12 +114,16 @@ function FlippableCard({
   dimensionColor,
   isMechanism,
   corpusById,
+  forceShowExample,
+  compact,
 }: {
   card: DimensionCard;
   categoryIcon?: string;
   dimensionColor: string;
   isMechanism?: boolean;
   corpusById: Map<string, CorpusItem>;
+  forceShowExample?: boolean;
+  compact?: boolean;
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
   // Show video/gif by default if one exists (but not for mechanisms - they play on hover)
@@ -160,7 +164,10 @@ function FlippableCard({
   return (
     <div
       className="flip-container w-full"
-      style={{ aspectRatio: "4 / 6", perspective: "1000px" }}
+      style={{
+        aspectRatio: compact ? "4 / 4.8" : "4 / 6",
+        perspective: "1000px",
+      }}
     >
       <div
         className={`flip-inner relative w-full h-full transition-transform duration-600 ${
@@ -318,7 +325,7 @@ function FlippableCard({
               </div>
 
               {/* View Example Button */}
-              {exampleSrc && (
+              {(exampleSrc || forceShowExample) && (
                 <div className="pt-4 flex justify-end flex-shrink-0">
                   <button
                     onClick={() => setIsFlipped(true)}
@@ -339,6 +346,7 @@ function FlippableCard({
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
+            clipPath: compact ? "inset(0 0 10px 0)" : "none",
           }}
         >
           <Card className="h-full flex flex-col overflow-hidden shadow-md min-h-0">
@@ -366,11 +374,12 @@ function FlippableCard({
               </CardTitle>
 
               {exampleSrc && (
-                <div className="rounded-lg border-2 border-border overflow-hidden bg-muted max-h-75">
+                <div className="rounded-lg border-2 border-border overflow-hidden bg-muted">
                   <img
                     src={exampleSrc}
                     alt={`${card.title} example`}
-                    className="w-full h-auto max-h-80 object-contain"
+                    className="w-full object-contain"
+                    style={{ maxHeight: compact ? "200px" : "240px", height: "auto" }}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
                     }}
@@ -545,6 +554,241 @@ function FlippableCard({
   );
 }
 
+// ── Visual Elements Panel ────────────────────────────────────────────────────
+
+const ELEMENT_COLORS: Record<string, string> = {
+  mark:        "#e74c3c",
+  collection:  "#e67e22",
+  annotation:  "#e91e8c",
+  guide:       "#9b59b6",
+  decoration:  "#8b6914",
+  scene:       "#4a7c4e",
+};
+
+function VisualElementsPanel({
+  cards,
+  dimensionColor,
+  categoryIcon,
+}: {
+  cards: DimensionCard[];
+  dimensionColor: string;
+  categoryIcon?: string;
+}) {
+  const [selected, setSelected] = useState<string>(cards[0]?.id ?? "");
+
+  const activeCard = cards.find((c) => c.id === selected);
+  const activeColor = ELEMENT_COLORS[selected] ?? "#94a3b8";
+
+  return (
+    <Card className="shadow-md overflow-hidden" style={{ display: "inline-flex", flexDirection: "column", width: "auto" }}>
+      <CardHeader className="relative" style={{ borderTop: `10px solid ${dimensionColor}` }}>
+        {/* Category icon */}
+        {categoryIcon && (
+          <div className="absolute top-4 right-4 w-10 h-10">
+            <img
+              src={categoryIcon}
+              alt="Category icon"
+              className="w-full h-full object-contain"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+            />
+          </div>
+        )}
+
+        </CardHeader>
+        <CardContent className="pt-0">
+        <div className="flex gap-8 items-stretch">
+          {/* Left: sketch with overlays */}
+          <div className="relative flex-shrink-0" style={{ width: "500px" }}>
+            <img
+              src={withBase("visual_elements/sketch.png")}
+              alt="Visual Elements Sketch"
+              className="w-full h-auto block"
+              style={{ pointerEvents: "none" }}
+            />
+            {cards.map((card) => (
+              <img
+                key={card.id}
+                src={withBase(`visual_elements/${card.id}.png`)}
+                alt={card.title}
+                className="absolute top-0 left-0 w-full h-auto transition-opacity duration-200"
+                style={{ opacity: selected === card.id ? 1 : 0.3, pointerEvents: "none" }}
+              />
+            ))}
+          </div>
+
+          {/* Right: description on top, tabs at bottom */}
+          <div className="flex flex-col justify-between" style={{ width: "320px" }}>
+            {/* Description */}
+            {activeCard && (
+              <div key={activeCard.id}>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: activeColor }}>
+                  {activeCard.title}
+                </h3>
+                {activeCard.description && (
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {activeCard.description}
+                  </p>
+                )}
+                {activeCard.details && activeCard.details.length > 0 && (
+                  <ul className="mt-4 space-y-2">
+                    {activeCard.details.map((d, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <div className="w-1 h-1 rounded-full bg-muted-foreground mt-2 shrink-0" />
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            {/* Tabs at bottom */}
+            <div className="flex flex-wrap gap-2 mt-6">
+              {cards.map((card) => {
+                const color = ELEMENT_COLORS[card.id] ?? "#94a3b8";
+                const isActive = selected === card.id;
+                return (
+                  <button
+                    key={card.id}
+                    onClick={() => setSelected(card.id)}
+                    className="px-4 py-1.5 rounded-full text-sm font-medium border-2 transition-all duration-150"
+                    style={{
+                      borderColor: color,
+                      backgroundColor: isActive ? color : "transparent",
+                      color: isActive ? "#fff" : color,
+                    }}
+                  >
+                    {card.title}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        </CardContent>
+    </Card>
+  );
+}
+
+// ── Spatial Arrangement Panel ────────────────────────────────────────────────
+
+const SPATIAL_ORDER = [
+  "alignment", "stacking", "adjacent_placement", "trajectory",
+  "piling", "clustering", "topological_placement", "bonding",
+  "scattering", "packing", "geographical_placement", "branching",
+];
+
+function SpatialArrangementPanel({
+  cards,
+  dimensionColor,
+  categoryIcon,
+  corpusById,
+}: {
+  cards: DimensionCard[];
+  dimensionColor: string;
+  categoryIcon?: string;
+  corpusById: Map<string, CorpusItem>;
+}) {
+  const [selected, setSelected] = useState<string>(SPATIAL_ORDER[0]);
+
+  const cardById = Object.fromEntries(cards.map(c => [c.id, c]));
+  const orderedCards = SPATIAL_ORDER.map(id => cardById[id]).filter(Boolean);
+  const activeCard = cardById[selected];
+
+  return (
+    <Card className="shadow-md overflow-hidden" style={{ display: "inline-flex", flexDirection: "column", width: "auto" }}>
+      <CardHeader className="relative" style={{ borderTop: `10px solid ${dimensionColor}` }}>
+        <CardTitle className="text-lg">Spatial Arrangement</CardTitle>
+        {categoryIcon && (
+          <div className="absolute top-4 right-4 w-10 h-10">
+            <img src={categoryIcon} alt="" className="w-full h-full object-contain"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+          </div>
+        )}
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="flex gap-8 items-start">
+          {/* Left: 4-col image grid */}
+          <div className="flex-shrink-0" style={{ width: "578px" }}>
+            <div className="grid grid-cols-4 gap-3">
+              {orderedCards.map((card) => (
+                <button
+                  key={card.id}
+                  onClick={() => setSelected(card.id)}
+                  className="flex flex-col items-center gap-1 focus:outline-none"
+                >
+                  <img
+                    src={withBase(card.image ?? "")}
+                    alt={card.title}
+                    className="w-full h-auto block rounded-lg transition-all duration-150"
+                    style={{
+                      pointerEvents: "none",
+                      boxShadow: selected === card.id
+                        ? `0 0 0 3px ${dimensionColor}, 0 0 0 5px ${dimensionColor}44`
+                        : "0 0 0 1.5px #d1d5db",
+                    }}
+                  />
+                  <span className="text-xs text-center text-muted-foreground leading-tight">
+                    {card.title}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: description + example */}
+          <div className="flex flex-col justify-between" style={{ width: "323px", minHeight: "100%" }}>
+            {activeCard && (() => {
+              const corpusExample = activeCard.examples ? corpusById.get(activeCard.examples) : undefined;
+              const exampleSrc = corpusExample?.image ? withBase(corpusExample.image) : undefined;
+              return (
+                <div key={activeCard.id} className="flex flex-col gap-3 h-full">
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-xl font-semibold" style={{ color: dimensionColor }}>
+                      {activeCard.title}
+                    </h3>
+                    {activeCard.description && (
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {activeCard.description}
+                      </p>
+                    )}
+                    {activeCard.details && activeCard.details.length > 0 && (
+                      <ul className="space-y-2">
+                        {activeCard.details.map((d, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <div className="w-1 h-1 rounded-full bg-muted-foreground mt-2 shrink-0" />
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {exampleSrc && (
+                      <div className="rounded-lg border-2 border-border overflow-hidden bg-muted">
+                        <img src={exampleSrc} alt={`${activeCard.title} example`}
+                          className="w-full h-auto object-contain" style={{ maxHeight: "220px" }} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex justify-end mt-auto pt-3">
+                    {corpusExample && (
+                      <button
+                        onClick={() => window.open(window.location.origin + window.location.pathname + "#item=" + encodeURIComponent(String(corpusExample.id)), "_blank")}
+                        className="px-4 py-2 bg-zinc-100 text-black rounded-full text-sm font-medium hover:bg-zinc-200 transition-colors"
+                      >
+                        Open Example ↗
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Corpus lookup types
 type CorpusItem = {
   id: string;
@@ -558,6 +802,8 @@ const CONTINUOUS_DIMENSIONS = [
   "metaphorical-proximity-to-data",
   "metaphorical-proximity-to-reality",
   "semantic-congruence",
+  "visual-realism",
+  "real-world-familiarity",
 ];
 
 // Hard-coded category descriptions
@@ -847,7 +1093,36 @@ export function DesignSpacePage() {
                       )}
                     </div>
 
-                    {CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
+                    {dimension.id === "element-type" ? (
+                      <VisualElementsPanel
+                        cards={dimension.cards}
+                        dimensionColor={dimension.color}
+                        categoryIcon={dimension.categoryIcon}
+                      />
+                    ) : dimension.id === "groups-and-populations" ? (
+                      <div className="space-y-8">
+                        {/* Count + Density as regular cards */}
+                        <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(2, 360px)", justifyContent: "start" }}>
+                          {dimension.cards.filter(c => ["count", "density"].includes(c.id)).map(card => (
+                            <FlippableCard
+                              key={card.id}
+                              card={card}
+                              categoryIcon={dimension.categoryIcon}
+                              dimensionColor={dimension.color}
+                              isMechanism={false}
+                              corpusById={corpusById}
+                            />
+                          ))}
+                        </div>
+                        {/* Spatial arrangement panel */}
+                        <SpatialArrangementPanel
+                          cards={dimension.cards.filter(c => !["count", "density"].includes(c.id))}
+                          dimensionColor={dimension.color}
+                          categoryIcon={dimension.categoryIcon}
+                          corpusById={corpusById}
+                        />
+                      </div>
+                    ) : CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
                       /* Continuous Axis Layout */
                       <div className="relative">
                         {/* Cards with connectors */}
@@ -866,6 +1141,8 @@ export function DesignSpacePage() {
                                 dimensionColor={dimension.color}
                                 isMechanism={dimension.category === "Physical Mechanisms"}
                                 corpusById={corpusById}
+                                forceShowExample
+                                compact
                               />
                               {/* Connector line from card to axis */}
                               <div className="flex flex-col items-center mt-2">
@@ -922,6 +1199,7 @@ export function DesignSpacePage() {
                         ))}
                       </div>
                     )}
+
 
                     {/* Separator between dimensions within a category */}
                     {dimIndex < dims.length - 1 && (
