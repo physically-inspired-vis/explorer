@@ -19,7 +19,7 @@ export default function App() {
   const renderPage = () => {
     switch (activeTab) {
       case "overview":
-        return <OverviewPage />;
+        return <OverviewPage onTabChange={setActiveTab} />;
       case "design-space":
         return <DesignSpacePage />;
       case "corpus":

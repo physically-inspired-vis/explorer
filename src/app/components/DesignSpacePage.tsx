@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
   Card,
@@ -108,7 +108,50 @@ const resolveAsset = (src?: string) => {
   return withBase(rel);
 };
 
-function FlippableCard({
+export function StaticDynamicSlider({ staticSrc, dynamicSrc, aspectRatio = "1000/648" }: { staticSrc: string; dynamicSrc: string; aspectRatio?: string }) {
+  const [position, setPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+
+  const handleMove = useCallback((clientX: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const pct = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
+    setPosition(pct);
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden rounded-xl select-none"
+      style={{ aspectRatio, cursor: "ew-resize" }}
+      onMouseDown={(e) => { isDragging.current = true; handleMove(e.clientX); }}
+      onMouseMove={(e) => { if (isDragging.current) handleMove(e.clientX); }}
+      onMouseUp={() => { isDragging.current = false; }}
+      onMouseLeave={() => { isDragging.current = false; }}
+      onTouchStart={(e) => { isDragging.current = true; handleMove(e.touches[0].clientX); }}
+      onTouchMove={(e) => { if (isDragging.current) handleMove(e.touches[0].clientX); }}
+      onTouchEnd={() => { isDragging.current = false; }}
+    >
+      <img src={dynamicSrc} alt="Dynamic" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
+        <img src={staticSrc} alt="Static" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+      </div>
+      <div
+        className="absolute top-0 bottom-0 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.5)] pointer-events-none"
+        style={{ left: `${position}%`, transform: "translateX(-50%)" }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-sm font-bold text-zinc-700">
+          ↔
+        </div>
+      </div>
+      <div className="absolute top-3 left-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full pointer-events-none">Static</div>
+      <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full pointer-events-none">Dynamic</div>
+    </div>
+  );
+}
+
+export function FlippableCard({
   card,
   categoryIcon,
   dimensionColor,
@@ -1228,6 +1271,24 @@ export function DesignSpacePage() {
                           categoryIcon={dimension.categoryIcon}
                           corpusById={corpusById}
                         />
+                      </div>
+                    ) : dimension.id === "temporality" ? (
+                      /* Temporality: side-by-side static/dynamic sliders */
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="flex flex-col gap-2">
+                          <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
+                          <StaticDynamicSlider
+                            staticSrc={withBase("design_space_static/shatter.png")}
+                            dynamicSrc={withBase("videos/shatter.gif")}
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <p className="text-sm font-medium text-muted-foreground">Fold / Unfold</p>
+                          <StaticDynamicSlider
+                            staticSrc={withBase("design_space_static/fold.png")}
+                            dynamicSrc={withBase("videos/fold.gif")}
+                          />
+                        </div>
                       </div>
                     ) : CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
                       /* Continuous Axis Layout */

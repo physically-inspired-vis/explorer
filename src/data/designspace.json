@@ -620,8 +620,9 @@
           ]
         },
         {
-          "id": "motion",
-          "label": "Motion",
+          "id": "temporality",
+          "label": "Temporality",
+          "description": "Physical attributes can be static or dynamic, and many physically-inspired effects can be shown in either form. Even in dynamic visualizations, some elements may remain fixed, while in static images, processes such as breaking or unfolding can still be suggested through progressive states. Temporality expands the design space by allowing visualizations to represent both states and processes.",
           "color": "#6D451A",
           "icon": "icons/motion.png",
           "order": 2,
