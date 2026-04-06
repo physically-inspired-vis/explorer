@@ -1,18 +1,17 @@
 [
   {
-    "type": "inline",
-    "name": "Method of Making",
-    "options": ["3D render", "Photograph of physical artefact", "Graphic design - Illustration"]
-  },
-  {
-    "type": "inline",
-    "name": "Animation",
-    "options": ["Static", "Dynamic"]
-  },
-  {
-    "type": "inline",
-    "name": "Perceptual Realism",
-    "options": ["Low Realism", "Intermediate Realism", "High Realism", "Indistinguishable from Reality"]
+    "type": "expandable",
+    "name": "Visualization Type",
+    "subcategories": [
+      {
+        "name": "Method of Making",
+        "options": ["3D render", "Photograph of physical artefact", "Graphic design - Illustration"]
+      },
+      {
+        "name": "Temporality",
+        "options": ["Static", "Dynamic"]
+      }
+    ]
   },
   {
     "type": "expandable",
@@ -36,7 +35,7 @@
       },
       {
         "name": "Groups and Populations",
-        "options": ["Count", "Density", "Spatial Arrangement - Alignment", "Spatial Arrangement - Stacking", "Spatial Arrangement - Packing", "Spatial Arrangement - Geographical", "Spatial Arrangement - Concentration", "Spatial Arrangement - Geographical", "Spatial Arrangement - Concentration", "Spatial Arrangement - Scattering", "Spatial Arrangement - Path"]
+        "options": ["Count", "Density", "Spatial Arrangement - Alignment", "Spatial Arrangement - Stacking", "Spatial Arrangement - Packing", "Spatial Arrangement - Geographical", "Spatial Arrangement - Concentration", "Spatial Arrangement - Scattering", "Spatial Arrangement - Path"]
       },
       {
         "name": "Framing Attributes",
@@ -50,7 +49,7 @@
   },
   {
     "type": "expandable",
-    "name": "Mechanisms",
+    "name": "Implied Physical Mechanisms",
     "subcategories": [
       {
         "name": "Biological Mechanisms",

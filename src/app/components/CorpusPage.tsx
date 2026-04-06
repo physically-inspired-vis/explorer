@@ -243,15 +243,16 @@ export function CorpusPage() {
     ? corpusItems
     : corpusItems.filter(item => {
         // Categorize selected tags
-        const selectedMethodOfMaking = selectedTags.filter(tag =>
-          ["3D render", "Photograph of physical artefact", "Graphic design - Illustration"].includes(tag)
-        );
-        const selectedAnimation = selectedTags.filter(tag =>
-          ["Static", "Dynamic"].includes(tag)
-        );
-        const selectedPerceptualRealism = selectedTags.filter(tag =>
-          ["Low Realism", "Intermediate Realism", "High Realism", "Indistinguishable from Reality"].includes(tag)
-        );
+        const vizTypeCategory = filterCategories
+          .find(cat => cat.type === "expandable" && cat.name === "Visualization Type");
+        const methodOptions = vizTypeCategory?.type === "expandable"
+          ? (vizTypeCategory.subcategories.find(s => s.name === "Method of Making")?.options ?? [])
+          : [];
+        const temporalityOptions = vizTypeCategory?.type === "expandable"
+          ? (vizTypeCategory.subcategories.find(s => s.name === "Temporality")?.options ?? [])
+          : [];
+        const selectedMethodOfMaking = selectedTags.filter(tag => methodOptions.includes(tag));
+        const selectedAnimation = selectedTags.filter(tag => temporalityOptions.includes(tag));
         const selectedPhysicalAttrs = selectedTags.filter(tag => {
           const physicalCategory = filterCategories
             .find(cat => cat.type === "expandable" && cat.name === "Physical Attributes");
@@ -262,39 +263,28 @@ export function CorpusPage() {
         });
         const selectedMechanisms = selectedTags.filter(tag => {
           const mechanismCategory = filterCategories
-            .find(cat => cat.type === "expandable" && cat.name === "Mechanisms");
+            .find(cat => cat.type === "expandable" && cat.name === "Implied Physical Mechanisms");
           const mechanismOptions = mechanismCategory && mechanismCategory.type === "expandable"
             ? mechanismCategory.subcategories.flatMap(sub => sub.options)
             : [];
           return mechanismOptions.includes(tag);
         });
 
-        // Check each category with appropriate logic
         const itemPhysicalAttrs = [...item.encodings, ...item.contextual];
 
-        // Method of Making: OR logic (match any if selected)
         const matchesMethodOfMaking = selectedMethodOfMaking.length === 0 ||
           selectedMethodOfMaking.includes(item.method_of_making || "");
 
-        // Animation: OR logic (match any if selected)
         const matchesAnimation = selectedAnimation.length === 0 ||
           selectedAnimation.includes(item.animation || "");
 
-        // Perceptual Realism: OR logic (match any if selected)
-        const matchesPerceptualRealism = selectedPerceptualRealism.length === 0 ||
-          selectedPerceptualRealism.includes(item.perceptual_realism || "");
-
-        // Physical Attributes: AND logic (must have all selected)
         const matchesPhysicalAttrs = selectedPhysicalAttrs.length === 0 ||
           selectedPhysicalAttrs.every(tag => itemPhysicalAttrs.includes(tag));
 
-        // Mechanisms: AND logic (must have all selected)
         const matchesMechanisms = selectedMechanisms.length === 0 ||
           selectedMechanisms.every(tag => item.mechanisms.includes(tag));
 
-        // AND logic between categories
-        return matchesMethodOfMaking && matchesAnimation && matchesPerceptualRealism &&
-               matchesPhysicalAttrs && matchesMechanisms;
+        return matchesMethodOfMaking && matchesAnimation && matchesPhysicalAttrs && matchesMechanisms;
       });
 
   return (
@@ -433,8 +423,8 @@ export function CorpusPage() {
 
       {/* Results Count */}
       <div className="mb-6">
-        <p className="text-sm text-muted-foreground">
-          Showing {filteredItems.length} of {corpusItems.length} visualization{filteredItems.length !== 1 ? 's' : ''}
+        <p className="text-1xl font-semibold text-foreground">
+          Showing <span className="text-xl font-bold">{filteredItems.length}</span> of {corpusItems.length} visualization{filteredItems.length !== 1 ? 's' : ''}
         </p>
       </div>
 
@@ -509,9 +499,7 @@ export function CorpusPage() {
                         <span
                           key={tagItem.tag}
                           className={`inline-block px-3 py-1 text-xs rounded-full ${
-                            selectedTags.includes(tagItem.tag)
-                              ? "bg-black text-white"
-                              : "bg-muted"
+                            selectedTags.includes(tagItem.tag) ? "bg-black text-white" : "bg-muted"
                           }`}
                         >
                           {tagItem.tag}{tagItem.count > 1 && ` (x${tagItem.count})`}
@@ -528,9 +516,7 @@ export function CorpusPage() {
                         <span
                           key={tagItem.tag}
                           className={`inline-block px-3 py-1 text-xs rounded-full ${
-                            selectedTags.includes(tagItem.tag)
-                              ? "bg-black text-white"
-                              : "bg-muted"
+                            selectedTags.includes(tagItem.tag) ? "bg-black text-white" : "bg-muted"
                           }`}
                         >
                           {tagItem.tag}{tagItem.count > 1 && ` (x${tagItem.count})`}
@@ -547,9 +533,7 @@ export function CorpusPage() {
                         <span
                           key={tagItem.tag}
                           className={`inline-block px-3 py-1 text-xs rounded-full ${
-                            selectedTags.includes(tagItem.tag)
-                              ? "bg-black text-white"
-                              : "bg-muted"
+                            selectedTags.includes(tagItem.tag) ? "bg-black text-white" : "bg-muted"
                           }`}
                         >
                           {tagItem.tag}{tagItem.count > 1 && ` (x${tagItem.count})`}

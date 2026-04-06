@@ -44,7 +44,7 @@ type DesignSpaceJson = {
   }>;
 };
 
-interface DimensionCard {
+export interface DimensionCard {
   id: string;
   title: string;
   description: string;
@@ -142,6 +142,7 @@ function FlippableCard({
 
   const imageSrc = resolveAsset(card.image) ?? PLACEHOLDER_IMG;
   const videoSrc = resolveAsset(card.video);
+  const isMp4 = Boolean(videoSrc && /\.mp4(\?|$)/i.test(videoSrc));
 
   // Look up example in corpus if card.examples is an ID
   const exampleId = card.examples;
@@ -161,11 +162,102 @@ function FlippableCard({
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
+  // Compact (continuous-scale) cards: show everything on a single non-flippable face
+  if (compact) {
+    return (
+      <div className="w-full" style={{ aspectRatio: "4 / 5.016" }}>
+        <Card className="hover:border-foreground transition-colors h-full flex flex-col overflow-hidden shadow-md min-h-0">
+          <CardHeader
+            className="relative flex-shrink-0"
+            style={{ borderTop: `10px solid ${dimensionColor}` }}
+          >
+            {categoryIcon && (
+              <div className="absolute top-4 right-4 w-10 h-10">
+                <img
+                  src={categoryIcon}
+                  alt="Category icon"
+                  className="w-full h-full object-contain"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                />
+              </div>
+            )}
+
+            <CardTitle className="text-lg mb-3 pr-12">{card.title}</CardTitle>
+
+            {showMedia && (
+              <div
+                className="rounded-lg border-2 border-border overflow-hidden bg-muted cursor-zoom-in select-none"
+                onMouseDown={(e) => { e.preventDefault(); setIsZooming(true); }}
+              >
+                <img
+                  src={imageSrc}
+                  alt={card.title}
+                  className="w-full h-auto pointer-events-none"
+                  draggable={false}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                />
+              </div>
+            )}
+          </CardHeader>
+
+          <CardContent className="flex-1 flex flex-col overflow-hidden min-h-0">
+            <div className="flex-1 overflow-y-auto space-y-3 card-scroll min-h-0">
+              {exampleSrc && (
+                <div className="rounded-lg border-2 border-border overflow-hidden bg-muted" style={{ height: "154px" }}>
+                  <img
+                    src={exampleSrc}
+                    alt={`${card.title} example`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                  />
+                </div>
+              )}
+
+              {card.description && (
+                <CardDescription className="text-sm">{card.description}</CardDescription>
+              )}
+
+              {card.details && card.details.length > 0 && (
+                <div className="space-y-1.5">
+                  {card.details.map((detail, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                      <div className="w-1 h-1 rounded-full bg-muted-foreground mt-1.5 shrink-0" />
+                      <span>{detail}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {corpusExample && (
+              <div className="pt-3 flex justify-end flex-shrink-0">
+                <button
+                  onClick={() =>
+                    window.open(
+                      window.location.origin +
+                        window.location.pathname +
+                        "#item=" +
+                        encodeURIComponent(String(corpusExample.id)),
+                      "_blank"
+                    )
+                  }
+                  className="px-4 py-2 bg-zinc-100 text-black rounded-full text-sm font-medium hover:bg-zinc-200 transition-colors"
+                >
+                  Open Example ↗
+                </button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div
       className="flip-container w-full"
       style={{
-        aspectRatio: compact ? "4 / 4.8" : "4 / 6",
+        aspectRatio: "4 / 5.7",
         perspective: "1000px",
       }}
     >
@@ -224,13 +316,18 @@ function FlippableCard({
                       e.preventDefault();
                       setIsZooming(true);
                     }}
-                    // Hover-to-play for mechanisms (commented out - now autoplay)
-                    // onMouseEnter={() => isMechanism && setIsHovering(true)}
-                    // onMouseLeave={() => isMechanism && setIsHovering(false)}
                   >
-                    {/* For mechanisms: show GIF only on hover. For others: use toggle state */}
-                    {/* Original: (isMechanism ? isHovering : showVideo) */}
                     {(isMechanism ? true : showVideo) && videoSrc ? (
+                      isMp4 ? (
+                        <video
+                          src={videoSrc}
+                          className="w-full h-auto pointer-events-none"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                        />
+                      ) : (
                       <img
                         src={videoSrc}
                         alt={`${card.title} animation`}
@@ -240,6 +337,7 @@ function FlippableCard({
                           (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
                         }}
                       />
+                      )
                     ) : (
                       <img
                         src={imageSrc}
@@ -346,7 +444,6 @@ function FlippableCard({
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
-            clipPath: compact ? "inset(0 0 10px 0)" : "none",
           }}
         >
           <Card className="h-full flex flex-col overflow-hidden shadow-md min-h-0">
@@ -379,7 +476,7 @@ function FlippableCard({
                     src={exampleSrc}
                     alt={`${card.title} example`}
                     className="w-full object-contain"
-                    style={{ maxHeight: compact ? "200px" : "240px", height: "auto" }}
+                    style={{ maxHeight: "240px", height: "auto" }}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
                     }}
@@ -392,7 +489,6 @@ function FlippableCard({
               <div className="flex-1 overflow-y-auto space-y-3 card-scroll min-h-0">
                 {exampleTitle && (
                   <div>
-                    {/* <h3 className="font-bold text-sm mb-1">EXAMPLE</h3> */}
                     <p className="text-sm">{exampleTitle}</p>
                   </div>
                 )}
@@ -445,7 +541,7 @@ function FlippableCard({
             <div
               style={{
                 width: "min(500px, 85vw)",
-                aspectRatio: "4 / 6",
+                aspectRatio: "4 / 5.7",
                 maxHeight: "90vh",
               }}
             >
@@ -474,6 +570,16 @@ function FlippableCard({
                       {/* mt-2 controls how far down the image sits - adjust mt-1, mt-3, mt-4 etc. */}
                       <div className="rounded-xl border-[3px] border-border overflow-hidden bg-muted">
                         {showVideo && videoSrc ? (
+                          isMp4 ? (
+                            <video
+                              src={videoSrc}
+                              className="w-full h-auto"
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                            />
+                          ) : (
                           <img
                             src={videoSrc}
                             alt={`${card.title} animation`}
@@ -483,6 +589,7 @@ function FlippableCard({
                               (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
                             }}
                           />
+                          )
                         ) : (
                           <img
                             src={imageSrc}
@@ -565,7 +672,7 @@ const ELEMENT_COLORS: Record<string, string> = {
   scene:       "#4a7c4e",
 };
 
-function VisualElementsPanel({
+export function VisualElementsPanel({
   cards,
   dimensionColor,
   categoryIcon,
@@ -598,7 +705,7 @@ function VisualElementsPanel({
         <CardContent className="pt-0">
         <div className="flex gap-8 items-stretch">
           {/* Left: sketch with overlays */}
-          <div className="relative flex-shrink-0" style={{ width: "500px" }}>
+          <div className="relative flex-shrink-0" style={{ width: "550px" }}>
             <img
               src={withBase("visual_elements/sketch.png")}
               alt="Visual Elements Sketch"
@@ -617,7 +724,7 @@ function VisualElementsPanel({
           </div>
 
           {/* Right: description on top, tabs at bottom */}
-          <div className="flex flex-col justify-between" style={{ width: "320px" }}>
+          <div className="flex flex-col justify-between" style={{ width: "352px" }}>
             {/* Description */}
             {activeCard && (
               <div key={activeCard.id}>
@@ -678,7 +785,7 @@ const SPATIAL_ORDER = [
   "scattering", "packing", "geographical_placement", "branching",
 ];
 
-function SpatialArrangementPanel({
+export function SpatialArrangementPanel({
   cards,
   dimensionColor,
   categoryIcon,
@@ -707,9 +814,9 @@ function SpatialArrangementPanel({
         )}
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex gap-8 items-start">
+        <div className="flex gap-8 items-stretch">
           {/* Left: 4-col image grid */}
-          <div className="flex-shrink-0" style={{ width: "578px" }}>
+          <div className="flex-shrink-0" style={{ width: "607px" }}>
             <div className="grid grid-cols-4 gap-3">
               {orderedCards.map((card) => (
                 <button
@@ -737,7 +844,7 @@ function SpatialArrangementPanel({
           </div>
 
           {/* Right: description + example */}
-          <div className="flex flex-col justify-between" style={{ width: "323px", minHeight: "100%" }}>
+          <div className="flex flex-col justify-between" style={{ width: "339px" }}>
             {activeCard && (() => {
               const corpusExample = activeCard.examples ? corpusById.get(activeCard.examples) : undefined;
               const exampleSrc = corpusExample?.image ? withBase(corpusExample.image) : undefined;
@@ -790,7 +897,7 @@ function SpatialArrangementPanel({
 }
 
 // Corpus lookup types
-type CorpusItem = {
+export type CorpusItem = {
   id: string;
   title: string;
   image?: string;

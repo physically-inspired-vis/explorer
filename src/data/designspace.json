@@ -142,7 +142,7 @@
               "title": "Intermediate (Mixed Realism)",
               "description": "The element includes some realistic aspects, such as depth, lighting, or texture, but these are mixed with stylized aspects.",
               "details": [],
-              "example": "ex-010",
+              "example": "ex-032",
               "order": 2
             },
             {
@@ -165,38 +165,26 @@
           "cards": [
             {
               "id": "low-proximity-slightly-familiar",
-              "title": "Low Proximity (Slightly Familiar)",
+              "title": "Low (Unfamiliar)",
               "description": "The visual element is only slightly familiar / feels more abstract or unfamiliar.",
-              "details": [
-                "Abstract feeling",
-                "Unfamiliar to most",
-                "Limited real-world connection"
-              ],
+              "details": [],
               "example": "ex-038",
               "order": 1
             },
             {
               "id": "intermediate-proximity-moderately-familiar",
-              "title": "Intermediate Proximity (Moderately Familiar)",
+              "title": "Intermediate (Slightly Familiar)",
               "description": "The visual element is moderately familiar.",
-              "details": [
-                "Some familiarity",
-                "Known but not common",
-                "Moderate recognition"
-              ],
-              "example": "ex-014",
+              "details": [],
+              "example": "ex-020",
               "order": 2
             },
             {
               "id": "high-proximity-very-familiar",
-              "title": "High Proximity (Very Familiar)",
+              "title": "High (Familiar)",
               "description": "The visual element is very familiar from everyday experience.",
-              "details": [
-                "Everyday experience",
-                "Highly recognizable",
-                "Strong real-world knowledge"
-              ],
-              "example": "ex-076",
+              "details": [],
+              "example": "ex-009",
               "order": 3
             }
           ]
@@ -213,11 +201,7 @@
               "id": "low-proximity-symbolic",
               "title": "Low Proximity (Symbolic)",
               "description": "The visual element does not resemble the associated data/theme, the connection between them must be learned from conventions.",
-              "details": [
-                "No resemblance to data",
-                "Requires learned conventions",
-                "Abstract relationship"
-              ],
+              "details": [],
               "example": "ex-025",
               "order": 1
             },
@@ -225,24 +209,16 @@
               "id": "intermediate-proximity-iconic",
               "title": "Intermediate Proximity (Iconic)",
               "description": "The visual element shares some similar qualities or resembles in an intuitive way the associated data/theme.",
-              "details": [
-                "Shares similar qualities",
-                "Intuitive resemblance",
-                "Some visual connection"
-              ],
-              "example": "ex-014",
+              "details": [],
+              "example": "ex-039",
               "order": 2
             },
             {
               "id": "high-proximity-literal",
               "title": "High Proximity (Literal)",
               "description": "The visual element is closely (physically/causally) connected to the data/theme.",
-              "details": [
-                "Close physical connection",
-                "Causal relationship",
-                "Direct representation"
-              ],
-              "example": "ex-076",
+              "details": [],
+              "example": "ex-086",
               "order": 3
             }
           ]
@@ -340,7 +316,7 @@
               "title": "Material Transformations",
               "description": "From isolated material changes to complex changes that communicate physical processes.",
               "details": [],
-              "image": "design_space_static/transformations.png",
+              "image": "design_space_static/material_transformation.png",
               "example": "ex-043",
               "order": 2
             }
@@ -728,7 +704,10 @@
               "title": "Decay",
               "description": "Degradation caused by breakdown, death, or deterioration of living matter.",
               "details": [],
+              "video": "videos/decay.mp4",
               "example": "ex-021",
+              "mechanism_creator": "@vfx_media",
+              "mechanism_creator_link": "https://www.instagram.com/vfx_media/",
               "order": 2
             },
             {
@@ -736,7 +715,10 @@
               "title": "Living Movement",
               "description": "Movement caused by internal, biological processes.",
               "details": [],
+              "video": "videos/movement.mp4",
               "example": "ex-076",
+              "mechanism_creator": "@aiaskokkalis",
+              "mechanism_creator_link": "https://www.instagram.com/aiaskokkalis/",
               "order": 3
             },
             {
@@ -744,7 +726,10 @@
               "title": "Respiration & Rhythms",
               "description": "Periodic, life-like oscillations that convey internal cycles of living systems. Examples: “breathing”,  pulse/heartbeat dilations, tremor or “shaking”, bioluminescent pulsing.",
               "details": [],
+              "video": "videos/rhythms.mp4",
               "example": "ex-075",
+              "mechanism_creator": "@split_vzn",
+              "mechanism_creator_link": "https://www.instagram.com/split_vzn/",
               "order": 4
             },
             {
@@ -753,10 +738,10 @@
               "description": "Spread of living agents across an object or host. Examples: mold / mycelium, bacterial growth on a surface, moss / lichen.",
               "details": [],
               "image": "design_space_static/infection.png",
-              "video": "videos/infection.gif",
+              "video": "videos/infection.mp4",
               "example": "ex-018",
-              "mechanism_creator": "@marctudisco",
-              "mechanism_creator_link": "https://www.instagram.com/marctudisco/",
+              "mechanism_creator": "@lucasmagdaleni",
+              "mechanism_creator_link": "https://www.instagram.com/lucasmagdaleni/",
               "order": 5
             },
             {
@@ -764,7 +749,10 @@
               "title": "Self-Organization & Patterns",
               "description": "Pattern formation or coordinated behavior arising from local interactions among many simple units, without centralized control. Examples: flocking / swarming, Turing patterns, phyllotaxis packing.",
               "details": [],
+              "video": "videos/patterns.mp4",
               "example": "ex-056",
+              "mechanism_creator": "@stephanhelbing",
+              "mechanism_creator_link": "https://www.instagram.com/stephanhelbing/",
               "order": 6
             },
             {
@@ -772,7 +760,10 @@
               "title": "Life-Cycle Events",
               "description": "Biological stage transitions that change appearance, structure, or function. Examples: germination, metamorphosis, flowering / fruiting / seeding.",
               "details": [],
+              "video": "videos/life_cycle.mp4",
               "example": "ex-090",
+              "mechanism_creator": "@zachdarren",
+              "mechanism_creator_link": "https://www.instagram.com/zachdarren/",
               "order": 7
             }
           ]
@@ -826,6 +817,9 @@
               "title": "Burning & Smoke",
               "description": "Oxidation-driven emission and transformation of matter producing flames or smoke.",
               "details": [],
+              "video": "videos/fire.mp4",
+              "mechanism_creator": "@vacades",
+              "mechanism_creator_link": "https://www.instagram.com/vacades/?g=5",
               "order": 4
             },
             {
@@ -845,7 +839,10 @@
               "title": "Force Fields & Particles",
               "description": "Motion and structure shaped by force fields, which can be electromagnetic-based, wind or abstract ones. The gravitational field is not included in this category and is classified in “Statics & Dynamics”.",
               "details": [],
+              "video": "videos/particles.mp4",
               "example": "ex-081",
+              "mechanism_creator": "@albacor_",
+              "mechanism_creator_link": "https://www.instagram.com/albacor_/",
               "order": 6
             },
             {
@@ -853,7 +850,10 @@
               "title": "Waves & Oscillations",
               "description": "Repeating disturbances over time, either traveling through space (waves) or cycling in place (oscillations).",
               "details": [],
+              "video": "videos/waves.mp4",
               "example": "ex-088",
+              "mechanism_creator": "@finnberenbroek",
+              "mechanism_creator_link": "https://www.instagram.com/finnberenbroek/?g=5",
               "order": 7
             },
             {
@@ -861,7 +861,10 @@
               "title": "Optics",
               "description": "Effects arising from light–matter interaction and light transport.",
               "details": [],
+              "video": "videos/optics.mp4",
               "example": "ex-086",
+              "mechanism_creator": "@emilsvfx",
+              "mechanism_creator_link": "https://www.instagram.com/emilsvfx/",
               "order": 8
             },
             {
@@ -869,7 +872,10 @@
               "title": "Weathering",
               "description": "Long-term alteration of surfaces and structures by environmental exposure and mechanical/chemical processes.",
               "details": [],
+              "video": "videos/weathering.mp4",
               "example": "ex-038",
+              "mechanism_creator": "@kristoffermoth",
+              "mechanism_creator_link": "https://www.instagram.com/kristoffermoth/",
               "order": 9
             }
           ]

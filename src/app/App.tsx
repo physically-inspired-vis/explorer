@@ -5,6 +5,7 @@ import { DesignSpacePage } from "@/app/components/DesignSpacePage";
 import { CorpusPage } from "@/app/components/CorpusPage";
 import { CodingInterfacePage } from "@/app/components/CodingInterfacePage";
 import { InspirationSetPage } from "@/app/components/InspirationSetPage";
+import { InspirationLibraryPage } from "@/app/components/InspirationLibraryPage";
 import { AboutPage } from "@/app/components/AboutPage";
 
 const getInitialTab = () => {
@@ -23,6 +24,8 @@ export default function App() {
         return <DesignSpacePage />;
       case "corpus":
         return <CorpusPage />;
+      case "inspiration-library":
+        return <InspirationLibraryPage />;
       case "coding-interface":
         return <CodingInterfacePage />;
       case "inspiration-set":
