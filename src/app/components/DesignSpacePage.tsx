@@ -159,6 +159,8 @@ export function FlippableCard({
   corpusById,
   forceShowExample,
   compact,
+  aspectRatioOverride,
+  showExampleOnFront,
 }: {
   card: DimensionCard;
   categoryIcon?: string;
@@ -167,21 +169,23 @@ export function FlippableCard({
   corpusById: Map<string, CorpusItem>;
   forceShowExample?: boolean;
   compact?: boolean;
+  aspectRatioOverride?: string;
+  showExampleOnFront?: boolean;
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
   // Show video/gif by default if one exists (but not for mechanisms - they play on hover)
   const [showVideo, setShowVideo] = useState(Boolean(card.video) && !isMechanism);
-  const [isZooming, setIsZooming] = useState(false);
+  // const [isZooming, setIsZooming] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   // Handle mouse up globally to catch release outside the element
-  useEffect(() => {
-    if (isZooming) {
-      const handleMouseUp = () => setIsZooming(false);
-      window.addEventListener("mouseup", handleMouseUp);
-      return () => window.removeEventListener("mouseup", handleMouseUp);
-    }
-  }, [isZooming]);
+  // useEffect(() => {
+  //   if (isZooming) {
+  //     const handleMouseUp = () => setIsZooming(false);
+  //     window.addEventListener("mouseup", handleMouseUp);
+  //     return () => window.removeEventListener("mouseup", handleMouseUp);
+  //   }
+  // }, [isZooming]);
 
   const imageSrc = resolveAsset(card.image) ?? PLACEHOLDER_IMG;
   const videoSrc = resolveAsset(card.video);
@@ -208,7 +212,7 @@ export function FlippableCard({
   // Compact (continuous-scale) cards: show everything on a single non-flippable face
   if (compact) {
     return (
-      <div className="w-full" style={{ aspectRatio: "4 / 5.016" }}>
+      <div className="w-full" style={{ aspectRatio: aspectRatioOverride ?? "4 / 5.016" }}>
         <Card className="hover:border-foreground transition-colors h-full flex flex-col overflow-hidden shadow-md min-h-0">
           <CardHeader
             className="relative flex-shrink-0"
@@ -229,8 +233,7 @@ export function FlippableCard({
 
             {showMedia && (
               <div
-                className="rounded-lg border-2 border-border overflow-hidden bg-muted cursor-zoom-in select-none"
-                onMouseDown={(e) => { e.preventDefault(); setIsZooming(true); }}
+                className="rounded-lg border-2 border-border overflow-hidden bg-muted select-none"
               >
                 <img
                   src={imageSrc}
@@ -300,7 +303,7 @@ export function FlippableCard({
     <div
       className="flip-container w-full"
       style={{
-        aspectRatio: "4 / 5.7",
+        aspectRatio: aspectRatioOverride ?? "4 / 5.7",
         perspective: "1000px",
       }}
     >
@@ -342,6 +345,18 @@ export function FlippableCard({
                 {card.title}
               </CardTitle>
 
+              {showExampleOnFront && exampleSrc && (
+                <div className="rounded-lg border-2 border-border overflow-hidden bg-muted">
+                  <img
+                    src={exampleSrc}
+                    alt={`${card.title} example`}
+                    className="w-full object-cover"
+                    style={{ maxHeight: "160px" }}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                  />
+                </div>
+              )}
+
               {showMedia && (
                 <div className="space-y-2">
                   {/* Preload GIF for mechanisms so it's cached when user hovers */}
@@ -354,12 +369,8 @@ export function FlippableCard({
                     />
                   )}
                   <div
-                    className="rounded-lg border-2 border-border overflow-hidden bg-muted cursor-zoom-in select-none"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      setIsZooming(true);
-                    }}
-                  >
+                    className="rounded-lg border-2 border-border overflow-hidden bg-muted select-none"
+                      >
                     {(isMechanism ? true : showVideo) && videoSrc ? (
                       isMp4 ? (
                         <video
@@ -443,14 +454,14 @@ export function FlippableCard({
             </CardHeader>
 
             <CardContent className="flex-1 flex flex-col overflow-hidden min-h-0">
-              <div className="flex-1 overflow-y-auto space-y-3 card-scroll min-h-0">
-                {card.description && (
+              <div className={`space-y-3 card-scroll min-h-0 ${showExampleOnFront ? "" : "flex-1 overflow-y-auto"}`}>
+                {card.description && !showExampleOnFront && (
                   <CardDescription className="text-sm">
                     {card.description}
                   </CardDescription>
                 )}
 
-                {card.details && card.details.length > 0 && (
+                {!showExampleOnFront && card.details && card.details.length > 0 && (
                   <div className="space-y-1.5">
                     {card.details.map((detail, idx) => (
                       <div
@@ -465,8 +476,47 @@ export function FlippableCard({
                 )}
               </div>
 
-              {/* View Example Button */}
-              {(exampleSrc || forceShowExample) && (
+              {/* showExampleOnFront layout: text → spacer → open button */}
+              {showExampleOnFront && (
+                <>
+                  <div className="flex-1 space-y-2 min-h-0">
+                    {card.description && (
+                      <CardDescription className="text-sm">{card.description}</CardDescription>
+                    )}
+                    {card.details && card.details.length > 0 && (
+                      <div className="space-y-1.5">
+                        {card.details.map((detail, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                            <div className="w-1 h-1 rounded-full bg-muted-foreground mt-1.5 shrink-0" />
+                            <span>{detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {corpusExample && (
+                    <div className="pt-2 flex justify-end flex-shrink-0">
+                      <button
+                        onClick={() =>
+                          window.open(
+                            window.location.origin +
+                              window.location.pathname +
+                              "#item=" +
+                              encodeURIComponent(String(corpusExample.id)),
+                            "_blank"
+                          )
+                        }
+                        className="px-4 py-2 bg-zinc-100 text-black rounded-full text-sm font-medium hover:bg-zinc-200 transition-colors"
+                      >
+                        Open Example ↗
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* View Example Button — hidden when example shown on front */}
+              {!showExampleOnFront && (exampleSrc || forceShowExample) && (
                 <div className="pt-4 flex justify-end flex-shrink-0">
                   <button
                     onClick={() => setIsFlipped(true)}
@@ -575,8 +625,7 @@ export function FlippableCard({
       </div>
 
       {/* Zoom Overlay - Enlarged Card (rendered via Portal to escape transform context) */}
-      {isZooming &&
-        createPortal(
+      {false && createPortal(
           <div
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 cursor-zoom-out"
             onMouseUp={() => setIsZooming(false)}
@@ -958,10 +1007,10 @@ const CONTINUOUS_DIMENSIONS = [
 
 // Hard-coded category descriptions
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
-  "Visual Elements": "A visual element is any perceivable graphical object or grouping within the composition that (a) supports data encodings (directly or indirectly), (b) supports the reading or interpretation of those encodings, or (c) contributes to the interpretation of the context of the dataset or the message of the visualization.",
-  "Physical Attributes": "Physically-inspired attributes are visual cues that evoke characteristics of the physical world. They invite viewers to interpret a visual element in an image as a physical substance governed by real-world properties (e.g., physical size, texture, deformation, fracture, lighting).",
-  "Attribute Dimensions": "The different dimensions that characterize a physically-inspired attribute.",
-  "Physical Mechanisms": "Implied physical mechanisms refers to the perceived causal process that a visualization suggests is responsible for a physically-inspired attribute’s visual state or change. It captures the viewer’s inference of “what physical process is happening here”, independent of whether that process is physically correct or actually simulated.",
+  "Visual Elements": "A visual element is a meaningful unit within a visualization scene. We decompose each visualization into visual elements in order to describe how physically-inspired cues are distributed across the composition and what roles they play in data encoding, interpretation, and contextual framing. This element-level decomposition is important because many physically-inspired visualizations combine multiple physical cues serving different roles across a hierarchy of elements. They may also mix production methods—such as 3D rendering, photographed physical artifacts, and 2D illustration—within the same visualization.",
+  "Physical Attributes": "Physical attributes describe the visual properties through which physically-inspired cues are expressed. They capture how elements appear (e.g., geometry, material, surface detail), how they are arranged in space (e.g., layout and grouping), and how they are framed (e.g., lighting, camera, and background).",
+  "Attribute Dimensions": "Physical attributes are organized into types based on the aspect of the visual representation they operate on. In the design space, these include spatial, geometry, material, structural, group and population, framing, and time attributes. This organization extends established visualization notions such as position, size, and orientation, while also introducing categories that are central to physically-inspired depictions, such as material transformations and structural deformations.",
+  "Physical Mechanisms": "An implied physical mechanism is the perceived real-world process that appears to cause an attribute’s visible state or behavior. Whereas physical attributes describe the visible effect, mechanisms describe its inferred cause. This distinction matters because the same visible attribute can suggest different processes: for example, a size change may imply growth, decay, inflation, or accumulation, each carrying different semantic associations. If no obvious cause is suggested leave this dimension empty.",
 };
 
 export function DesignSpacePage() {
@@ -1046,8 +1095,11 @@ export function DesignSpacePage() {
       if (!map.has(dim.category)) map.set(dim.category, []);
       map.get(dim.category)!.push(dim);
     }
+    // Temporarily hidden dimensions (re-add ids to show them again)
+    const HIDDEN_DIMENSIONS = ["element-hierarchy"];
+
     for (const cat of orderedCategories) {
-      const dims = map.get(cat.category) ?? [];
+      const dims = (map.get(cat.category) ?? []).filter(d => !HIDDEN_DIMENSIONS.includes(d.id));
       byCat.push({ category: cat.category, dims });
     }
     return byCat;
@@ -1209,7 +1261,7 @@ export function DesignSpacePage() {
                     {category}
                   </h1>
                   {CATEGORY_DESCRIPTIONS[category] && (
-                    <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+                    <p className="text-muted-foreground text-sm max-w-4xl mx-auto">
                       {CATEGORY_DESCRIPTIONS[category]}
                     </p>
                   )}
@@ -1237,7 +1289,7 @@ export function DesignSpacePage() {
                         <h2 className="text-3xl">{dimension.label}</h2>
                       </div>
                       {dimension.description && (
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-muted-foreground text-sm" style={{ maxWidth: "1512px" }}>
                           {dimension.description}
                         </p>
                       )}
@@ -1274,7 +1326,7 @@ export function DesignSpacePage() {
                       </div>
                     ) : dimension.id === "temporality" ? (
                       /* Temporality: side-by-side static/dynamic sliders */
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-2 gap-6" style={{ width: "90%" }}>
                         <div className="flex flex-col gap-2">
                           <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
                           <StaticDynamicSlider
@@ -1311,6 +1363,7 @@ export function DesignSpacePage() {
                                 corpusById={corpusById}
                                 forceShowExample
                                 compact
+                                aspectRatioOverride={dimension.id === "semantic-congruence" ? "4 / 2.85" : undefined}
                               />
                               {/* Connector line from card to axis */}
                               <div className="flex flex-col items-center mt-2">
@@ -1363,6 +1416,12 @@ export function DesignSpacePage() {
                             dimensionColor={dimension.color}
                             isMechanism={dimension.category === "Physical Mechanisms"}
                             corpusById={corpusById}
+                            aspectRatioOverride={
+                              dimension.id === "attribute-function" ? "4 / 2.85" :
+                              ["time-attributes", "framing-attributes"].includes(dimension.id) ? "4 / 4.56" :
+                              undefined
+                            }
+                            showExampleOnFront={["time-attributes", "framing-attributes"].includes(dimension.id)}
                           />
                         ))}
                       </div>

@@ -11,7 +11,7 @@ export function CodingInterfacePage() {
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="rounded-lg overflow-hidden shadow-lg">
         <img
-          src={withBase("resources/interface screenshot.png")}
+          src={withBase("resources/interface screenshot.jpg")}
           alt="Coding Interface Preview"
           className="w-full h-auto"
         />
