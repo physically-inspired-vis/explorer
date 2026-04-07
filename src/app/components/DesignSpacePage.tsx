@@ -1087,6 +1087,13 @@ export function DesignSpacePage() {
     return out;
   }, [orderedCategories]);
 
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
   const groupedDimensions = useMemo(() => {
     // Preserve category order by iterating orderedCategories
     const byCat: Array<{ category: string; dims: Dimension[] }> = [];
@@ -1107,15 +1114,15 @@ export function DesignSpacePage() {
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    const scrollContainer = document.getElementById("design-space-scroll-container");
-
-    if (element && scrollContainer) {
-      const elementTop = element.offsetTop;
-      const offset = 100; // Offset to show the title
-      scrollContainer.scrollTo({
-        top: elementTop - offset,
-        behavior: "smooth",
-      });
+    if (!element) return;
+    if (isMobile) {
+      const top = element.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    } else {
+      const scrollContainer = document.getElementById("design-space-scroll-container");
+      if (scrollContainer) {
+        scrollContainer.scrollTo({ top: element.offsetTop - 100, behavior: "smooth" });
+      }
     }
   };
 
@@ -1201,9 +1208,9 @@ export function DesignSpacePage() {
         }
       `}</style>
 
-      <div className="flex h-[calc(100vh-65px)]">
-        {/* Left Sidebar */}
-        <div className="w-80 border-r border-border bg-background overflow-y-auto custom-scrollbar">
+      <div className={isMobile ? "block" : "flex h-[calc(100vh-65px)]"}>
+        {/* Left Sidebar — desktop only */}
+        <div className="hidden md:block w-80 border-r border-border bg-background overflow-y-auto custom-scrollbar">
           <div className="p-6">
             <h2 className="text-sm uppercase tracking-wider text-muted-foreground mb-4">
               Explore Dimensions
@@ -1211,7 +1218,6 @@ export function DesignSpacePage() {
 
             {groupedDimensions.map(({ category, dims }) => (
               <div key={category} className="mb-6">
-                {/* Category title - adjust text-sm/text-base for size, font-bold/font-semibold for weight */}
                 <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-2 px-3">
                   {category}
                 </h3>
@@ -1223,22 +1229,11 @@ export function DesignSpacePage() {
                       className="w-full flex items-center gap-3 px-3 py-0 rounded-lg text-left text-sm transition-colors hover:bg-muted"
                     >
                       {dimension.categoryIcon ? (
-                        <img
-                          src={dimension.categoryIcon}
-                          alt=""
-                          className="w-7 h-7 object-contain"
-                        />
+                        <img src={dimension.categoryIcon} alt="" className="w-7 h-7 object-contain" />
                       ) : (
-                        <div
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{
-                            backgroundColor: dimension.color,
-                          }}
-                        />
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dimension.color }} />
                       )}
-                      <span className="flex-1">
-                        {dimension.label} ({dimension.cards.length})
-                      </span>
+                      <span className="flex-1">{dimension.label} ({dimension.cards.length})</span>
                     </button>
                   ))}
                 </div>
@@ -1247,12 +1242,32 @@ export function DesignSpacePage() {
           </div>
         </div>
 
-        {/* Right Content Area - Scrollable One Pager */}
+        {/* Mobile jump-to select */}
+        {isMobile && (
+          <div className="sticky top-16 z-40 bg-background border-b border-border px-4 py-2">
+            <select
+              className="w-full text-sm bg-muted rounded-lg px-3 py-2 border border-border"
+              defaultValue=""
+              onChange={(e) => { if (e.target.value) scrollToSection(e.target.value); }}
+            >
+              <option value="" disabled>Jump to dimension…</option>
+              {groupedDimensions.map(({ category, dims }) => (
+                <optgroup key={category} label={category}>
+                  {dims.map((dim) => (
+                    <option key={dim.id} value={dim.id}>{dim.label}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Right Content Area */}
         <div
           id="design-space-scroll-container"
-          className="flex-1 overflow-y-auto right-panel-scrollbar"
+          className={isMobile ? "w-full" : "flex-1 overflow-y-auto right-panel-scrollbar"}
         >
-          <div className="p-8">
+          <div className={isMobile ? "p-4" : "p-8"}>
             {groupedDimensions.map(({ category, dims }, catIndex) => (
               <div key={category} className="mb-16">
                 {/* Category Header - centered, uppercase, with description */}
@@ -1296,15 +1311,17 @@ export function DesignSpacePage() {
                     </div>
 
                     {dimension.id === "element-type" ? (
-                      <VisualElementsPanel
-                        cards={dimension.cards}
-                        dimensionColor={dimension.color}
-                        categoryIcon={dimension.categoryIcon}
-                      />
+                      <div className="overflow-x-auto">
+                        <VisualElementsPanel
+                          cards={dimension.cards}
+                          dimensionColor={dimension.color}
+                          categoryIcon={dimension.categoryIcon}
+                        />
+                      </div>
                     ) : dimension.id === "groups-and-populations" ? (
                       <div className="space-y-8">
                         {/* Count + Density as regular cards */}
-                        <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(2, 360px)", justifyContent: "start" }}>
+                        <div className="grid gap-6" style={{ gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 360px)", justifyContent: "start" }}>
                           {dimension.cards.filter(c => ["count", "density"].includes(c.id)).map(card => (
                             <FlippableCard
                               key={card.id}
@@ -1317,16 +1334,18 @@ export function DesignSpacePage() {
                           ))}
                         </div>
                         {/* Spatial arrangement panel */}
-                        <SpatialArrangementPanel
-                          cards={dimension.cards.filter(c => !["count", "density"].includes(c.id))}
-                          dimensionColor={dimension.color}
-                          categoryIcon={dimension.categoryIcon}
-                          corpusById={corpusById}
-                        />
+                        <div className="overflow-x-auto">
+                          <SpatialArrangementPanel
+                            cards={dimension.cards.filter(c => !["count", "density"].includes(c.id))}
+                            dimensionColor={dimension.color}
+                            categoryIcon={dimension.categoryIcon}
+                            corpusById={corpusById}
+                          />
+                        </div>
                       </div>
                     ) : dimension.id === "temporality" ? (
                       /* Temporality: side-by-side static/dynamic sliders */
-                      <div className="grid grid-cols-2 gap-6" style={{ width: "90%" }}>
+                      <div className={`grid gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-2"}`} style={{ width: isMobile ? "100%" : "90%" }}>
                         <div className="flex flex-col gap-2">
                           <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
                           <StaticDynamicSlider
@@ -1344,12 +1363,12 @@ export function DesignSpacePage() {
                       </div>
                     ) : CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
                       /* Continuous Axis Layout */
-                      <div className="relative">
+                      <div className={isMobile ? "" : "relative"}>
                         {/* Cards with connectors */}
                         <div
                           className="grid gap-6"
                           style={{
-                            gridTemplateColumns: `repeat(${dimension.cards.length}, 360px)`,
+                            gridTemplateColumns: isMobile ? "1fr" : `repeat(${dimension.cards.length}, 360px)`,
                             justifyContent: "start",
                           }}
                         >
@@ -1374,8 +1393,8 @@ export function DesignSpacePage() {
                           ))}
                         </div>
 
-                        {/* Axis with gradient */}
-                        <div
+                        {/* Axis with gradient — desktop only */}
+                        {!isMobile && <div
                           className="relative mt-2"
                           style={{
                             width: `calc(${dimension.cards.length} * 360px + ${dimension.cards.length - 1} * 24px)`,
@@ -1397,14 +1416,14 @@ export function DesignSpacePage() {
                             <span>Intermediate</span>
                             <span>High</span>
                           </div>
-                        </div>
+                        </div>}
                       </div>
                     ) : (
                       /* Standard Grid Layout */
                       <div
                         className="grid gap-6"
                         style={{
-                          gridTemplateColumns: "repeat(auto-fill, 360px)",
+                          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, 360px)",
                           justifyContent: "start",
                         }}
                       >
