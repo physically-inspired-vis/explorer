@@ -288,7 +288,7 @@ export function CorpusPage() {
       });
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 py-12">
+    <div className="max-w-screen-2xl mx-auto px-4 md:px-6 py-8 md:py-12">
       {/* <div className="mb-12">
         <h1 className="text-4xl mb-4">Corpus</h1>
         <p className="text-muted-foreground max-w-4xl">
@@ -429,7 +429,7 @@ export function CorpusPage() {
       </div>
 
       {/* Cards Grid */}
-      <div className="grid gap-6 justify-center [grid-template-columns:repeat(auto-fit,350px)]">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredItems.map((item) => {
           const processed = processItem(item);
 

@@ -8,7 +8,7 @@ const withBase = (relPath: string) => {
 
 export function CodingInterfacePage() {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
       <div className="rounded-lg overflow-hidden shadow-lg">
         <img
           src={withBase("resources/interface screenshot.jpg")}

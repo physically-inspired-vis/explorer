@@ -26,9 +26,9 @@ function Body({ children }: { children: React.ReactNode }) {
 
 function TwoCol({ left, right }: { left: React.ReactNode; right: React.ReactNode }) {
   return (
-    <div className="flex gap-10 items-start w-full">
-      <div className="flex-1 min-w-0">{left}</div>
-      <div className="flex-1 min-w-0">{right}</div>
+    <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start w-full">
+      <div className="flex-1 min-w-0 w-full">{left}</div>
+      <div className="flex-1 min-w-0 w-full">{right}</div>
     </div>
   );
 }
@@ -103,7 +103,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
 
   return (
     <div className="overflow-auto">
-      <div className="max-w-6xl mx-auto px-8 py-12 flex flex-col gap-20">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12 flex flex-col gap-12 md:gap-20">
 
         {/* Hero */}
         <Section>
@@ -154,12 +154,14 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
             </Body>
           </Section>
 
-          <div style={{ width: "fit-content" }}>
-            <VisualElementsPanel
-              cards={elementTypeCards}
-              dimensionColor={elementTypeColor}
-              categoryIcon={elementTypeIcon}
-            />
+          <div className="overflow-x-auto">
+            <div style={{ width: "fit-content" }}>
+              <VisualElementsPanel
+                cards={elementTypeCards}
+                dimensionColor={elementTypeColor}
+                categoryIcon={elementTypeIcon}
+              />
+            </div>
           </div>
         </Section>
 
@@ -169,7 +171,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
           <Body>
             Physical attributes can be static or dynamic, and many physically-inspired effects can be shown in either form. Even in dynamic visualizations, some elements may remain fixed, while in static images, processes such as breaking or unfolding can still be suggested through progressive states. Temporality expands the design space by allowing visualizations to represent both states and processes.
           </Body>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
               <StaticDynamicSlider
@@ -195,13 +197,15 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
           <Body>
             Spatial arrangement describes how multiple elements are repeated, distributed, and organized in space. In our design space, it is part of the group and population attributes and applies mainly to collections rather than individual marks. We distinguish patterns such as alignment, stacking, piling, geographical placement, scattering, clustering, topological arrangement, and trajectory. In physically-inspired visualizations, these arrangements often go beyond conventional layout: they can suggest physical organization, movement, accumulation, or environmental context, and therefore shape how data is structured and interpreted.
           </Body>
-          <div style={{ width: "fit-content" }}>
-            <SpatialArrangementPanel
-              cards={groupCards}
-              dimensionColor={groupColor}
-              categoryIcon={groupIcon}
-              corpusById={corpusById}
-            />
+          <div className="overflow-x-auto">
+            <div style={{ width: "fit-content" }}>
+              <SpatialArrangementPanel
+                cards={groupCards}
+                dimensionColor={groupColor}
+                categoryIcon={groupIcon}
+                corpusById={corpusById}
+              />
+            </div>
           </div>
         </Section>
 
@@ -211,7 +215,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
           <Body>
             Implied physical mechanisms capture the processes that a visualization seems to evoke. Physical attributes describe the visible effect, but mechanisms describe the cause a viewer may infer from it: the same size change, for instance, can feel like growth, decay, inflation, or accumulation. We group these mechanisms into broad biological and physics-based or chemical families, which helps show how physically-inspired visualizations do more than borrow a look from the physical world — they also borrow its processes, transformations, and logic of change.
           </Body>
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {mechanismCards.map(card => (
               <FlippableCard
                 key={card.id}
