@@ -56,7 +56,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
     return map;
   }, []);
 
-  const { elementTypeCards, elementTypeColor, elementTypeIcon, groupCards, groupColor, groupIcon, mechanismCards, mechanismColor, mechanismIcon } = useMemo(() => {
+  const { elementTypeCards, elementTypeColor, elementTypeIcon, groupCards, groupColor, groupIcon, mechanismCards, mechanismColor, mechanismIcon, mechanismIconById } = useMemo(() => {
     type DSJson = { categories: Array<{ category: string; dimensions: Array<{ id: string; color?: string; icon?: string; cards: DimensionCard[] }> }> };
     const data = designspaceDataRaw as DSJson;
     let elementTypeCards: DimensionCard[] = [];
@@ -68,6 +68,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
     let mechanismCards: DimensionCard[] = [];
     let mechanismColor = "#436d41";
     let mechanismIcon: string | undefined;
+    const mechanismIconById: Record<string, string | undefined> = {};
 
     const MECHANISM_IDS = ["living-movement", "respiration-rhythms", "force-fields-particles"];
 
@@ -91,6 +92,8 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
             mechanismCards.push(...matched);
             mechanismColor = dim.color ?? mechanismColor;
             if (!mechanismIcon) mechanismIcon = dim.icon ? withBase(dim.icon) : undefined;
+            const dimIcon = dim.icon ? withBase(dim.icon) : undefined;
+            matched.forEach(c => { mechanismIconById[c.id] = dimIcon; });
           }
         }
       }
@@ -98,7 +101,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
     // Preserve requested order
     mechanismCards.sort((a, b) => MECHANISM_IDS.indexOf(a.id) - MECHANISM_IDS.indexOf(b.id));
 
-    return { elementTypeCards, elementTypeColor, elementTypeIcon, groupCards, groupColor, groupIcon, mechanismCards, mechanismColor, mechanismIcon };
+    return { elementTypeCards, elementTypeColor, elementTypeIcon, groupCards, groupColor, groupIcon, mechanismCards, mechanismColor, mechanismIcon, mechanismIconById };
   }, []);
 
   return (
@@ -220,7 +223,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
               <FlippableCard
                 key={card.id}
                 card={card}
-                categoryIcon={mechanismIcon}
+                categoryIcon={mechanismIconById[card.id] ?? mechanismIcon}
                 dimensionColor={mechanismColor}
                 isMechanism
                 corpusById={corpusById}

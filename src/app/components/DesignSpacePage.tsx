@@ -1210,257 +1210,292 @@ export function DesignSpacePage() {
 
       <div className={isMobile ? "block" : "flex h-[calc(100vh-65px)]"}>
         {/* Left Sidebar — desktop only */}
-        <div className="hidden md:block w-80 border-r border-border bg-background overflow-y-auto custom-scrollbar">
-          <div className="p-6">
-            <h2 className="text-sm uppercase tracking-wider text-muted-foreground mb-4">
-              Explore Dimensions
-            </h2>
+        {(() => {
+          const visualElDims = groupedDimensions.find(g => g.category === "Visual Elements")?.dims ?? [];
+          const physAttrDims = groupedDimensions.find(g => g.category === "Physical Attributes")?.dims ?? [];
+          const attrDimDims = groupedDimensions.find(g => g.category === "Attribute Dimensions")?.dims ?? [];
+          const mechDims = groupedDimensions.find(g => g.category === "Physical Mechanisms")?.dims ?? [];
 
-            {groupedDimensions.map(({ category, dims }) => (
-              <div key={category} className="mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-2 px-3">
-                  {category}
-                </h3>
-                <div className="space-y-1">
-                  {dims.map((dimension) => (
-                    <button
-                      key={dimension.id}
-                      onClick={() => scrollToSection(dimension.id)}
-                      className="w-full flex items-center gap-3 px-3 py-0 rounded-lg text-left text-sm transition-colors hover:bg-muted"
-                    >
-                      {dimension.categoryIcon ? (
-                        <img src={dimension.categoryIcon} alt="" className="w-7 h-7 object-contain" />
-                      ) : (
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dimension.color }} />
-                      )}
-                      <span className="flex-1">{dimension.label} ({dimension.cards.length})</span>
-                    </button>
-                  ))}
+          const navButton = (dimension: Dimension) => (
+            <button
+              key={dimension.id}
+              onClick={() => scrollToSection(dimension.id)}
+              className="w-full flex items-center gap-3 px-3 py-0 rounded-lg text-left text-sm transition-colors hover:bg-muted"
+            >
+              {dimension.categoryIcon ? (
+                <img src={dimension.categoryIcon} alt="" className="w-7 h-7 object-contain" />
+              ) : (
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: dimension.color }} />
+              )}
+              <span className="flex-1">{dimension.label} ({dimension.cards.length})</span>
+            </button>
+          );
+
+          const subHeader = (label: string) => (
+            <div className="px-3 pt-3 pb-1 text-sm font-bold text-foreground">
+              {label}
+            </div>
+          );
+
+          return (
+            <>
+              <div className="hidden md:block w-80 border-r border-border bg-background overflow-y-auto custom-scrollbar">
+                <div className="p-6">
+                  <h2 className="text-sm uppercase tracking-wider text-muted-foreground mb-4">
+                    Explore Dimensions
+                  </h2>
+
+                  {/* Visual Elements */}
+                  <div className="mb-6">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-2 px-3">
+                      Visual Elements
+                    </h3>
+                    <div className="space-y-1">
+                      {visualElDims.map(navButton)}
+                    </div>
+                  </div>
+
+                  {/* Physical Attributes */}
+                  <div className="mb-6">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-foreground mb-2 px-3">
+                      Physical Attributes
+                    </h3>
+                    <div className="space-y-1">
+                      {/* Attribute Dimensions flat items */}
+                      {attrDimDims.map(navButton)}
+
+                      {/* Attribute Type sub-group */}
+                      {subHeader("Attribute Type")}
+                      <div className="space-y-1 pl-3 border-l border-border ml-3">
+                        {physAttrDims.map(navButton)}
+                      </div>
+
+                      {/* Implied Physical Mechanisms sub-group */}
+                      {subHeader("Implied Physical Mechanisms")}
+                      <div className="space-y-1 pl-3 border-l border-border ml-3">
+                        {mechDims.map(navButton)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Mobile jump-to select */}
-        {isMobile && (
-          <div className="sticky top-16 z-40 bg-background border-b border-border px-4 py-2">
-            <select
-              className="w-full text-sm bg-muted rounded-lg px-3 py-2 border border-border"
-              defaultValue=""
-              onChange={(e) => { if (e.target.value) scrollToSection(e.target.value); }}
-            >
-              <option value="" disabled>Jump to dimension…</option>
-              {groupedDimensions.map(({ category, dims }) => (
-                <optgroup key={category} label={category}>
-                  {dims.map((dim) => (
-                    <option key={dim.id} value={dim.id}>{dim.label}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
-        )}
+              {/* Mobile jump-to select */}
+              {isMobile && (
+                <div className="sticky top-16 z-40 bg-background border-b border-border px-4 py-2">
+                  <select
+                    className="w-full text-sm bg-muted rounded-lg px-3 py-2 border border-border"
+                    defaultValue=""
+                    onChange={(e) => { if (e.target.value) scrollToSection(e.target.value); }}
+                  >
+                    <option value="" disabled>Jump to dimension…</option>
+                    <optgroup label="Visual Elements">
+                      {visualElDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+                    </optgroup>
+                    <optgroup label="Physical Attributes — Dimensions">
+                      {attrDimDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+                    </optgroup>
+                    <optgroup label="Physical Attributes — Attribute Type">
+                      {physAttrDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+                    </optgroup>
+                    <optgroup label="Physical Attributes — Mechanisms">
+                      {mechDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
+                    </optgroup>
+                  </select>
+                </div>
+              )}
+            </>
+          );
+        })()}
 
         {/* Right Content Area */}
         <div
           id="design-space-scroll-container"
           className={isMobile ? "w-full" : "flex-1 overflow-y-auto right-panel-scrollbar"}
         >
-          <div className={isMobile ? "p-4" : "p-8"}>
-            {groupedDimensions.map(({ category, dims }, catIndex) => (
-              <div key={category} className="mb-16">
-                {/* Category Header - centered, uppercase, with description */}
-                <div className="text-center mb-12">
-                  <h1 className="text-2xl font-bold uppercase tracking-wider mb-3">
-                    {category}
-                  </h1>
-                  {CATEGORY_DESCRIPTIONS[category] && (
-                    <p className="text-muted-foreground text-sm max-w-4xl mx-auto">
-                      {CATEGORY_DESCRIPTIONS[category]}
+          {(() => {
+            const visualElDims = groupedDimensions.find(g => g.category === "Visual Elements")?.dims ?? [];
+            const physAttrDims = groupedDimensions.find(g => g.category === "Physical Attributes")?.dims ?? [];
+            const attrDimDims = groupedDimensions.find(g => g.category === "Attribute Dimensions")?.dims ?? [];
+            const mechDims = groupedDimensions.find(g => g.category === "Physical Mechanisms")?.dims ?? [];
+
+            const renderDimension = (dimension: Dimension) => (
+              <div key={dimension.id} id={dimension.id} className="mb-16">
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h2 className="text-3xl">{dimension.label}</h2>
+                  </div>
+                  {dimension.description && (
+                    <p className="text-muted-foreground text-sm max-w-4xl">
+                      {dimension.description}
                     </p>
                   )}
                 </div>
 
-                {/* Dimensions within this category */}
-                {dims.map((dimension, dimIndex) => (
-                  <div key={dimension.id} id={dimension.id} className="mb-16">
-                    <div className="mb-8">
-                      <div className="flex items-center gap-3 mb-2">
-                        {/* {dimension.categoryIcon ? (
-                          <img
-                            src={dimension.categoryIcon}
-                            alt=""
-                            className="w-10 h-10 object-contain"
-                          />
-                        ) : (
-                          <div
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                              backgroundColor: dimension.color,
-                            }}
-                          />
-                        )} */}
-                        <h2 className="text-3xl">{dimension.label}</h2>
-                      </div>
-                      {dimension.description && (
-                        <p className="text-muted-foreground text-sm" style={{ maxWidth: "1512px" }}>
-                          {dimension.description}
-                        </p>
-                      )}
-                    </div>
-
-                    {dimension.id === "element-type" ? (
-                      <div className="overflow-x-auto">
-                        <VisualElementsPanel
-                          cards={dimension.cards}
-                          dimensionColor={dimension.color}
+                {dimension.id === "element-type" ? (
+                  <div className="overflow-x-auto">
+                    <VisualElementsPanel
+                      cards={dimension.cards}
+                      dimensionColor={dimension.color}
+                      categoryIcon={dimension.categoryIcon}
+                    />
+                  </div>
+                ) : dimension.id === "groups-and-populations" ? (
+                  <div className="space-y-8">
+                    <div className="grid gap-6" style={{ gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 360px)", justifyContent: "start" }}>
+                      {dimension.cards.filter(c => ["count", "density"].includes(c.id)).map(card => (
+                        <FlippableCard
+                          key={card.id}
+                          card={card}
                           categoryIcon={dimension.categoryIcon}
+                          dimensionColor={dimension.color}
+                          isMechanism={false}
+                          corpusById={corpusById}
                         />
-                      </div>
-                    ) : dimension.id === "groups-and-populations" ? (
-                      <div className="space-y-8">
-                        {/* Count + Density as regular cards */}
-                        <div className="grid gap-6" style={{ gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 360px)", justifyContent: "start" }}>
-                          {dimension.cards.filter(c => ["count", "density"].includes(c.id)).map(card => (
-                            <FlippableCard
-                              key={card.id}
-                              card={card}
-                              categoryIcon={dimension.categoryIcon}
-                              dimensionColor={dimension.color}
-                              isMechanism={false}
-                              corpusById={corpusById}
-                            />
-                          ))}
-                        </div>
-                        {/* Spatial arrangement panel */}
-                        <div className="overflow-x-auto">
-                          <SpatialArrangementPanel
-                            cards={dimension.cards.filter(c => !["count", "density"].includes(c.id))}
-                            dimensionColor={dimension.color}
-                            categoryIcon={dimension.categoryIcon}
-                            corpusById={corpusById}
-                          />
-                        </div>
-                      </div>
-                    ) : dimension.id === "temporality" ? (
-                      /* Temporality: side-by-side static/dynamic sliders */
-                      <div className={`grid gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-2"}`} style={{ width: isMobile ? "100%" : "90%" }}>
-                        <div className="flex flex-col gap-2">
-                          <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
-                          <StaticDynamicSlider
-                            staticSrc={withBase("design_space_static/shatter.png")}
-                            dynamicSrc={withBase("videos/shatter.gif")}
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <p className="text-sm font-medium text-muted-foreground">Fold / Unfold</p>
-                          <StaticDynamicSlider
-                            staticSrc={withBase("design_space_static/fold.png")}
-                            dynamicSrc={withBase("videos/fold.gif")}
-                          />
-                        </div>
-                      </div>
-                    ) : CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
-                      /* Continuous Axis Layout */
-                      <div className={isMobile ? "" : "relative"}>
-                        {/* Cards with connectors */}
-                        <div
-                          className="grid gap-6"
-                          style={{
-                            gridTemplateColumns: isMobile ? "1fr" : `repeat(${dimension.cards.length}, 360px)`,
-                            justifyContent: "start",
-                          }}
-                        >
-                          {dimension.cards.map((card) => (
-                            <div key={card.id} className="relative">
-                              <FlippableCard
-                                card={card}
-                                categoryIcon={dimension.categoryIcon}
-                                dimensionColor={dimension.color}
-                                isMechanism={dimension.category === "Physical Mechanisms"}
-                                corpusById={corpusById}
-                                forceShowExample
-                                compact
-                                aspectRatioOverride={dimension.id === "semantic-congruence" ? "4 / 2.85" : undefined}
-                              />
-                              {/* Connector line from card to axis */}
-                              <div className="flex flex-col items-center mt-2">
-                                <div className="w-0.5 h-8 bg-gray-400" />
-                                <div className="w-2.5 h-2.5 rounded-full -mt-1.5 bg-gray-400" />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Axis with gradient — desktop only */}
-                        {!isMobile && <div
-                          className="relative mt-2"
-                          style={{
-                            width: `calc(${dimension.cards.length} * 360px + ${dimension.cards.length - 1} * 24px)`,
-                          }}
-                        >
-                          {/* Gradient background */}
-                          <div
-                            className="absolute inset-0 h-3 rounded-full"
-                            style={{
-                              background: `linear-gradient(to right, transparent, ${dimension.color})`,
-                            }}
-                          />
-                          {/* Axis line */}
-                          <div className="relative h-3 rounded-full border-2 border-gray-300" />
-
-                          {/* Axis labels */}
-                          <div className="flex justify-between mt-3 text-sm font-medium text-muted-foreground px-1">
-                            <span>Low</span>
-                            <span>Intermediate</span>
-                            <span>High</span>
-                          </div>
-                        </div>}
-                      </div>
-                    ) : (
-                      /* Standard Grid Layout */
-                      <div
-                        className="grid gap-6"
-                        style={{
-                          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, 360px)",
-                          justifyContent: "start",
-                        }}
-                      >
-                        {dimension.cards.map((card) => (
+                      ))}
+                    </div>
+                    <SpatialArrangementPanel
+                      cards={dimension.cards.filter(c => !["count", "density"].includes(c.id))}
+                      dimensionColor={dimension.color}
+                      categoryIcon={dimension.categoryIcon}
+                      corpusById={corpusById}
+                    />
+                  </div>
+                ) : dimension.id === "temporality" ? (
+                  <div className={`grid gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-2"}`} style={{ width: isMobile ? "100%" : "90%" }}>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm font-medium text-muted-foreground">Break / Shatter</p>
+                      <StaticDynamicSlider
+                        staticSrc={withBase("design_space_static/shatter.png")}
+                        dynamicSrc={withBase("videos/shatter.gif")}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm font-medium text-muted-foreground">Fold / Unfold</p>
+                      <StaticDynamicSlider
+                        staticSrc={withBase("design_space_static/fold.png")}
+                        dynamicSrc={withBase("videos/fold.gif")}
+                      />
+                    </div>
+                  </div>
+                ) : CONTINUOUS_DIMENSIONS.includes(dimension.id) ? (
+                  <div className={isMobile ? "" : "relative"}>
+                    <div
+                      className="grid gap-6"
+                      style={{
+                        gridTemplateColumns: isMobile ? "1fr" : `repeat(${dimension.cards.length}, 360px)`,
+                        justifyContent: "start",
+                      }}
+                    >
+                      {dimension.cards.map((card) => (
+                        <div key={card.id} className="relative">
                           <FlippableCard
-                            key={card.id}
                             card={card}
                             categoryIcon={dimension.categoryIcon}
                             dimensionColor={dimension.color}
                             isMechanism={dimension.category === "Physical Mechanisms"}
                             corpusById={corpusById}
-                            aspectRatioOverride={
-                              dimension.id === "attribute-function" ? "4 / 2.85" :
-                              ["time-attributes", "framing-attributes"].includes(dimension.id) ? "4 / 4.56" :
-                              undefined
-                            }
-                            showExampleOnFront={["time-attributes", "framing-attributes"].includes(dimension.id)}
+                            forceShowExample
+                            compact
+                            aspectRatioOverride={dimension.id === "semantic-congruence" ? "4 / 2.85" : undefined}
                           />
-                        ))}
+                          <div className="flex flex-col items-center mt-2">
+                            <div className="w-0.5 h-8 bg-gray-400" />
+                            <div className="w-2.5 h-2.5 rounded-full -mt-1.5 bg-gray-400" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {!isMobile && <div
+                      className="relative mt-2"
+                      style={{ width: `calc(${dimension.cards.length} * 360px + ${dimension.cards.length - 1} * 24px)` }}
+                    >
+                      <div className="absolute inset-0 h-3 rounded-full" style={{ background: `linear-gradient(to right, transparent, ${dimension.color})` }} />
+                      <div className="relative h-3 rounded-full border-2 border-gray-300" />
+                      <div className="flex justify-between mt-3 text-sm font-medium text-muted-foreground px-1">
+                        <span>Low</span>
+                        <span>Intermediate</span>
+                        <span>High</span>
                       </div>
-                    )}
-
-
-                    {/* Separator between dimensions within a category */}
-                    {dimIndex < dims.length - 1 && (
-                      <div className="mt-16 border-t border-border"></div>
-                    )}
+                    </div>}
                   </div>
-                ))}
-
-                {/* Separator between categories */}
-                {catIndex < groupedDimensions.length - 1 && (
-                  <div className="mt-8 border-t-2 border-border"></div>
+                ) : (
+                  <div
+                    className="grid gap-6"
+                    style={{
+                      gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, 360px)",
+                      justifyContent: "start",
+                    }}
+                  >
+                    {dimension.cards.map((card) => (
+                      <FlippableCard
+                        key={card.id}
+                        card={card}
+                        categoryIcon={dimension.categoryIcon}
+                        dimensionColor={dimension.color}
+                        isMechanism={dimension.category === "Physical Mechanisms"}
+                        corpusById={corpusById}
+                        aspectRatioOverride={
+                          dimension.id === "attribute-function" ? "4 / 2.85" :
+                          ["time-attributes", "framing-attributes"].includes(dimension.id) ? "4 / 4.56" :
+                          undefined
+                        }
+                        showExampleOnFront={["time-attributes", "framing-attributes"].includes(dimension.id)}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
-            ))}
-          </div>
+            );
+
+            const renderDims = (dims: Dimension[]) => dims.map((dim, i) => (
+              <div key={dim.id}>
+                {renderDimension(dim)}
+                {i < dims.length - 1 && <div className="mb-16 border-t border-border" />}
+              </div>
+            ));
+
+            const subSectionHeader = (label: string, description?: string) => (
+              <div className="mt-16 mb-12 border-t-2 border-border pt-10">
+                <h1 className="text-2xl font-bold uppercase tracking-wider mb-3">{label}</h1>
+                {description && (
+                  <p className="text-muted-foreground text-sm max-w-4xl">{description}</p>
+                )}
+              </div>
+            );
+
+            return (
+              <div className={isMobile ? "p-4" : "p-8"}>
+                {/* VISUAL ELEMENTS */}
+                <div className="mb-16">
+                  <div className="mb-12">
+                    <h1 className="text-2xl font-bold uppercase tracking-wider mb-3">Visual Elements</h1>
+                    {CATEGORY_DESCRIPTIONS["Visual Elements"] && (
+                      <p className="text-muted-foreground text-sm max-w-4xl">{CATEGORY_DESCRIPTIONS["Visual Elements"]}</p>
+                    )}
+                  </div>
+                  {renderDims(visualElDims)}
+                </div>
+
+                <div className="mt-8 border-t-2 border-border" />
+
+                {/* PHYSICAL ATTRIBUTES */}
+                <div className="mb-16 mt-16">
+                  <div className="mb-12">
+                    <h1 className="text-2xl font-bold uppercase tracking-wider mb-3">Physical Attributes</h1>
+                    {CATEGORY_DESCRIPTIONS["Physical Attributes"] && (
+                      <p className="text-muted-foreground text-sm max-w-4xl">{CATEGORY_DESCRIPTIONS["Physical Attributes"]}</p>
+                    )}
+                  </div>
+                  {renderDims(attrDimDims)}
+                  {subSectionHeader("Attribute Type", "Physical attributes are organized into types based on the aspect of the visual representation they operate on. In the design space, these include spatial, geometry, material, structural, group and population, framing, and time attributes. This organization extends established visualization notions such as position, size, and orientation, while also introducing categories that are central to physically-inspired depictions, such as material transformations and structural deformations.")}
+                  {renderDims(physAttrDims)}
+                  {subSectionHeader("Implied Physical Mechanisms", "An implied physical mechanism is the perceived real-world process that appears to cause an attribute's visible state or behavior. Whereas physical attributes describe the visible effect, mechanisms describe its inferred cause. This distinction matters because the same visible attribute can suggest different processes: for example, a size change may imply growth, decay, inflation, or accumulation, each carrying different semantic associations. If no obvious cause is suggested leave this dimension empty.")}
+                  {renderDims(mechDims)}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Footer inside right panel */}
           <footer className="border-t border-border mt-8 bg-slate-800">
