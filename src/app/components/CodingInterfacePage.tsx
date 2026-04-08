@@ -16,7 +16,15 @@ export function CodingInterfacePage() {
           className="w-full h-auto"
         />
       </div>
-      <div className="mt-6 flex justify-center">
+      <div className="mt-6 flex justify-center gap-4">
+        <a
+          href="https://physically-inspired-vis.github.io/coder/Code%20Book.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-6 py-3 bg-zinc-950 hover:bg-zinc-800 text-white rounded-lg text-sm font-medium transition-colors"
+        >
+          Open Code Book ↗
+        </a>
         <a
           href={CODER_URL}
           target="_blank"

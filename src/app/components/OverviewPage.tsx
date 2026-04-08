@@ -227,6 +227,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
                 dimensionColor={mechanismColor}
                 isMechanism
                 corpusById={corpusById}
+                aspectRatioOverride="4 / 6"
               />
             ))}
           </div>

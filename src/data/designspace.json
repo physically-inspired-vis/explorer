@@ -131,7 +131,7 @@
           "cards": [
             {
               "id": "low-realism",
-              "title": "Low (Highly stylized)",
+              "title": "Low (Highly Stylized)",
               "description": "The element is highly stylized, with little attempt to imitate real-world optics or physics. It may use simplified shapes, flat colors, or abstract rendering, and if animated, its motion does not strongly appear physically plausible.",
               "details": [],
               "example": "ex-014",
@@ -165,7 +165,7 @@
           "cards": [
             {
               "id": "low-proximity-slightly-familiar",
-              "title": "Low (Slightly Familiar)",
+              "title": "Low (Mostly Unfamiliar)",
               "description": "The visual element is only slightly familiar / feels more abstract or unfamiliar.",
               "details": [],
               "example": "ex-038",
@@ -173,15 +173,15 @@
             },
             {
               "id": "intermediate-proximity-moderately-familiar",
-              "title": "Intermediate (Familiar)",
+              "title": "Intermediate (Slightly Familiar)",
               "description": "The element suggests a recognizable real-world entity or category, but remains simplified, stylized, or somewhat ambiguous. Viewers may identify it, but the expected affordances are only partially conveyed or may vary across viewers.",
               "details": [],
-              "example": "ex-020",
+              "example": "ex-071",
               "order": 2
             },
             {
               "id": "high-proximity-very-familiar",
-              "title": "High (Very Familiar)",
+              "title": "High (Quite Familiar)",
               "description": "The element clearly depicts a familiar real-world entity that most viewers can identify quickly and consistently. It evokes a strong shared sense of its typical perceptual and action affordances.",
               "details": [],
               "example": "ex-009",
@@ -277,7 +277,7 @@
             {
               "id": "shape",
               "title": "Shape",
-              "description": "The element’s overall shape. It may be a recognizable shape (e.g.\\ a star or a hand) or an abstract one.",
+              "description": "The element’s overall shape. It may be a recognizable shape (e.g., a star or a hand) or an abstract one.",
               "details": [],
               "image": "design_space_static/shape.png",
               "example": "ex-002",
@@ -842,7 +842,7 @@
               "description": "Motion and structure shaped by force fields, which can be electromagnetic-based, wind or\r\nabstract ones. The gravitational field is not included in this category and is classified in\r\n“Statics & Dynamics”.\r\nExamples: magnetic attraction / repulsion, wind, dust / pollen diffusion, particle movement.",
               "details": [],
               "video": "videos/particles.mp4",
-              "example": "ex-081",
+              "example": "ex-063",
               "mechanism_creator": "@albacor_",
               "mechanism_creator_link": "https://www.instagram.com/albacor_/",
               "order": 6

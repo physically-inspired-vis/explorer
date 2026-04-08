@@ -49,6 +49,7 @@ export interface DimensionCard {
   title: string;
   description: string;
   details?: string[];
+  example?: string;
   examples?: string;
   image?: string;
   video?: string;
@@ -191,8 +192,8 @@ export function FlippableCard({
   const videoSrc = resolveAsset(card.video);
   const isMp4 = Boolean(videoSrc && /\.mp4(\?|$)/i.test(videoSrc));
 
-  // Look up example in corpus if card.examples is an ID
-  const exampleId = card.examples;
+  // Look up example in corpus if card.examples or card.example is an ID
+  const exampleId = card.examples ?? card.example;
   const corpusExample = exampleId ? corpusById.get(exampleId) : undefined;
   const exampleSrc = corpusExample?.image
     ? withBase(corpusExample.image)
@@ -231,17 +232,23 @@ export function FlippableCard({
 
             <CardTitle className="text-lg mb-3 pr-12">{card.title}</CardTitle>
 
-            {showMedia && (
-              <div
-                className="rounded-lg border-2 border-border overflow-hidden bg-muted select-none"
-              >
-                <img
-                  src={imageSrc}
-                  alt={card.title}
-                  className="w-full h-auto pointer-events-none"
-                  draggable={false}
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                />
+            {(showMedia || videoSrc) && (
+              <div className="rounded-lg border-2 border-border overflow-hidden bg-muted select-none">
+                {videoSrc ? (
+                  isMp4 ? (
+                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-auto" />
+                  ) : (
+                    <img src={videoSrc} alt={card.title} className="w-full h-auto pointer-events-none" draggable={false} />
+                  )
+                ) : (
+                  <img
+                    src={imageSrc}
+                    alt={card.title}
+                    className="w-full h-auto pointer-events-none"
+                    draggable={false}
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                  />
+                )}
               </div>
             )}
           </CardHeader>
@@ -1265,7 +1272,7 @@ export function DesignSpacePage() {
                       {attrDimDims.map(navButton)}
 
                       {/* Attribute Type sub-group */}
-                      {subHeader("Attribute Type")}
+                      {subHeader("Attribute Types")}
                       <div className="space-y-1 pl-3 border-l border-border ml-3">
                         {physAttrDims.map(navButton)}
                       </div>
@@ -1295,7 +1302,7 @@ export function DesignSpacePage() {
                     <optgroup label="Physical Attributes">
                       {attrDimDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
-                    <optgroup label="Physical Attributes — Attribute Type">
+                    <optgroup label="Physical Attributes — Attribute Types">
                       {physAttrDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
                     <optgroup label="Physical Attributes — Implied Physical Mechanisms">
@@ -1488,7 +1495,7 @@ export function DesignSpacePage() {
                     )}
                   </div>
                   {renderDims(attrDimDims)}
-                  {subSectionHeader("Attribute Type", "Physical attributes are organized into types based on the aspect of the visual representation they operate on. In the design space, these include spatial, geometry, material, structural, group and population, framing, and time attributes. This organization extends established visualization notions such as position, size, and orientation, while also introducing categories that are central to physically-inspired depictions, such as material transformations and structural deformations.")}
+                  {subSectionHeader("Attribute Types", "Physical attributes are organized into types based on the aspect of the visual representation they operate on. In the design space, these include spatial, geometry, material, structural, group and population, framing, and time attributes. This organization extends established visualization notions such as position, size, and orientation, while also introducing categories that are central to physically-inspired depictions, such as material transformations and structural deformations.")}
                   {renderDims(physAttrDims)}
                   {subSectionHeader("Implied Physical Mechanisms", "An implied physical mechanism is the perceived real-world process that appears to cause an attribute's visible state or behavior. Whereas physical attributes describe the visible effect, mechanisms describe its inferred cause. This distinction matters because the same visible attribute can suggest different processes: for example, a size change may imply growth, decay, inflation, or accumulation, each carrying different semantic associations. If no obvious cause is suggested leave this dimension empty.")}
                   {renderDims(mechDims)}

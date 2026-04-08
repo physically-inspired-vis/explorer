@@ -10,7 +10,7 @@ const tabs = [
   { id: "design-space", label: "Design Space" },
   { id: "corpus", label: "Corpus" },
   // { id: "inspiration-library", label: "Inspiration Library" },
-  { id: "coding-interface", label: "Coding Interface" },
+  { id: "coding-interface", label: "Coding" },
   // { id: "inspiration-set", label: "Inspiration Set" },
   // { id: "about", label: "Resources" },
 ];
