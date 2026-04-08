@@ -1284,6 +1284,11 @@ export function DesignSpacePage() {
                       </div>
                     </div>
                   </div>
+                  <div className="mt-6 px-3 pt-4 border-t border-border">
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      * The visuals displayed on the cards were created through 3D modeling and rendering and AI-based image generation.
+                    </p>
+                  </div>
                 </div>
               </div>
 

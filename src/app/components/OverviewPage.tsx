@@ -192,6 +192,9 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
               />
             </div>
           </div>
+          <p className="text-sm text-muted-foreground mt-3">
+            * The visuals were created in Houdini using rigid-body and soft-body 3D simulations for the shattering and unfolding effects, respectively, and were rendered in Redshift as either three consecutive frames or a video sequence.
+          </p>
         </Section>
 
         {/* Spatial arrangement */}
