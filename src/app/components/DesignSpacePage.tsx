@@ -173,8 +173,8 @@ export function FlippableCard({
   showExampleOnFront?: boolean;
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
-  // Show video/gif by default if one exists (but not for mechanisms - they play on hover)
-  const [showVideo, setShowVideo] = useState(Boolean(card.video) && !isMechanism);
+  // Show static image by default; video only for mechanisms (hover)
+  const [showVideo, setShowVideo] = useState(false);
   // const [isZooming, setIsZooming] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -1292,13 +1292,13 @@ export function DesignSpacePage() {
                     <optgroup label="Visual Elements">
                       {visualElDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
-                    <optgroup label="Physical Attributes — Dimensions">
+                    <optgroup label="Physical Attributes">
                       {attrDimDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
                     <optgroup label="Physical Attributes — Attribute Type">
                       {physAttrDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
-                    <optgroup label="Physical Attributes — Mechanisms">
+                    <optgroup label="Physical Attributes — Implied Physical Mechanisms">
                       {mechDims.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
                     </optgroup>
                   </select>
