@@ -36,8 +36,8 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
               className="h-14 w-14 md:h-20 md:w-20 object-contain flex-shrink-0"
             />
             <h1 className="text-sm md:text-lg font-semibold tracking-tight text-white leading-tight">
-              <span className="hidden sm:inline">Physically-inspired Visualization Explorer</span>
-              <span className="sm:hidden">Phys-Insp VIS Explorer</span>
+              <span className="hidden sm:inline">Physically-Inspired Visualization: Design Space Explorer</span>
+              <span className="sm:hidden">Physically-Inspired VIS Explorer</span>
             </h1>
           </div>
 

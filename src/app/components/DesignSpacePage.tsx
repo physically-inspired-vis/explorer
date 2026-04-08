@@ -962,9 +962,9 @@ export function SpatialArrangementPanel({
                       </ul>
                     )}
                     {exampleSrc && (
-                      <div className="rounded-lg border-2 border-border overflow-hidden bg-muted">
+                      <div className="rounded-lg border-2 border-border overflow-hidden">
                         <img src={exampleSrc} alt={`${activeCard.title} example`}
-                          className="w-full h-auto object-contain" style={{ maxHeight: "220px" }} />
+                          className="w-full object-cover" style={{ height: "220px" }} />
                       </div>
                     )}
                   </div>

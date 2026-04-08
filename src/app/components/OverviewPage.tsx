@@ -107,14 +107,14 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
 
         {/* Hero */}
         <Section>
-          <h1 className="text-5xl font-bold tracking-tight leading-tight max-w-4xl">
+          <h1 className="text-4xl font-bold tracking-tight leading-tight max-w-4xl">
             A design space for physically-inspired visualization
           </h1>
           <Body>
             Physically-inspired visualizations are data visualizations that draw on cues from the physical world — such as materials, lighting, depth, deformation, or physically suggestive motion — to communicate data. These cues can function as encodings, provide context, or shape interpretation. To better understand this growing visual vocabulary, we developed a design space grounded in a curated corpus of 103 examples across different media and production methods. It offers a shared framework for analyzing and designing physically-inspired visualizations.
           </Body>
           <Body>
-            This website presents that design space in a more visual and accessible form. It introduces the main concepts, shows how the framework is organized, and connects them to examples from the corpus and the design practice.
+            The design space offers a shared framework for analyzing and designing physically-inspired visualizations. The present website introduces its main concepts and connects them to examples from the corpus and design practice.
           </Body>
         </Section>
 
@@ -124,7 +124,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
             <Section>
               <SectionTitle>Positioning physically-inspired visualization</SectionTitle>
               <Body>
-                Physically-inspired visualization cuts across several existing areas rather than belonging to just one. It overlaps with data physicalization, embellished visualization, cinematic visualization, and data videos. What makes it distinctive is that it treats physical-looking cues as the main lens of analysis, whether they appear in photographs of physical artifacts, 2D illustrations, 3D renderings, or animated scenes. Rather than a single genre, it is better understood as a cross-cutting framing: a way of looking at visualizations through the physical cues they use, the processes they suggest, and the roles they play in shaping meaning and interpretation.
+                Physically-inspired visualization cuts across several existing areas rather than belonging to a single one. Its defining characteristic is the use of physical-looking cues as the main lens of analysis, whether in photographs of physical artifacts, 2D illustrations, 3D renderings, or animated scenes. Rather than a distinct genre, it is best understood as a cross-cutting framing: a way of analyzing visualizations through the physical cues they employ, the processes they suggest, and the roles they play in shaping meaning and interpretation.
               </Body>
             </Section>
           }
@@ -137,7 +137,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
         <Section>
           <SectionTitle>How the design space is organized</SectionTitle>
           <Body>
-            The design space is organized in two connected layers. On the left, it starts with visual elements: the different parts that make up a physically-inspired visualization, such as marks, collections, guides, annotations, decorations, and the scene. Each element can then be described through a set of physical attributes, shown in the center and right of the diagram. These attributes capture what kinds of physical cues are used, whether they encode data or provide context, whether they are static or dynamic, and what kinds of physical or biological processes they may suggest. Together, these layers provide a way to describe how physicality is built into the visualization and how it shapes meaning and interpretation.
+            The design space is organized into two layers: visual elements and physical attributes.  Visual elements are the building blocks of a physically-inspired visualization: marks, collections, guides, annotations, decorations, and the scene. Each element is then described through a set of physical attributes. These attributes capture the types of physical cues used, their role (data encoding or contextual), their temporality (static or dynamic), and the physical or biological processes they may suggest. 
           </Body>
           <ArticleImage src="resources/design space.png" alt="Design Space Overview" width="100%" />
         </Section>
@@ -147,7 +147,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
           <Section>
             <SectionTitle>Visual elements</SectionTitle>
             <Body>
-              We begin by breaking each visualization into visual elements. These include marks and collections, which encode data, as well as guides, annotations, decorations, and the scene, which support interpretation and framing. This decomposition is important because physically-inspired visualizations often combine multiple roles, visual styles, and levels of realism within the same image or video. Looking only at the whole visualization makes these distinctions hard to describe.
+              Visual elements include marks and collections, which encode data, as well as guides, annotations, decorations, and the scene, which support interpretation and framing. This decomposition is important because physically-inspired visualizations often combine multiple roles, visual styles, and levels of realism within the same image or video. 
             </Body>
             <Body>
               The framework also captures the hierarchy between elements. Marks typically sit at the lowest level, while collections group marks or other collections into larger structures. Support elements can attach to different levels of this hierarchy depending on what they help explain or frame. The scene sits at the highest level, capturing the overall environment, viewpoint, and atmosphere of the visualization. Thinking in terms of element types and hierarchy makes it easier to describe how different parts of the visualization work together, and how physical cues are distributed across the composition.
@@ -167,7 +167,7 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
 
         {/* Static vs dynamic */}
         <Section>
-          <SectionTitle>Static vs dynamic physical cues</SectionTitle>
+          <SectionTitle>Static vs dynamic physical attributes</SectionTitle>
           <Body>
             Physical attributes can be static or dynamic, and many physically-inspired effects can be shown in either form. Even in dynamic visualizations, some elements may remain fixed, while in static images, processes such as breaking or unfolding can still be suggested through progressive states. Temporality expands the design space by allowing visualizations to represent both states and processes.
           </Body>
