@@ -1232,7 +1232,7 @@ export function DesignSpacePage() {
           );
 
           const subHeader = (label: string) => (
-            <div className="px-3 pt-3 pb-1 text-sm font-bold text-foreground">
+            <div className="px-3 pt-3 pb-1 text-sm font-semibold text-foreground">
               {label}
             </div>
           );
