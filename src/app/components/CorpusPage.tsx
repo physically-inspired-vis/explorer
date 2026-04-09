@@ -114,6 +114,9 @@ const corpusItems: CorpusItem[] = (corpusData as CorpusJsonRow[]).map((row, inde
 });
 
 const resolveImgSrc = (image?: string) => (image ? withBase(image) : PLACEHOLDER_IMG);
+const imgFallback = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
+};
 
 
 
@@ -450,9 +453,7 @@ export function CorpusPage() {
                     className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
-                    }}
+                    onError={imgFallback}
                   />
                 </div>
                 <CardTitle>{item.title}</CardTitle>
@@ -478,15 +479,6 @@ export function CorpusPage() {
                           : "bg-muted"
                       }`}>
                         {item.animation}
-                      </span>
-                    )}
-                    {item.perceptual_realism && (
-                      <span className={`inline-block px-3 py-1 text-xs rounded-full ${
-                        selectedTags.includes(item.perceptual_realism)
-                          ? "bg-black text-white"
-                          : "bg-muted"
-                      }`}>
-                        {item.perceptual_realism}
                       </span>
                     )}
                   </div>
@@ -610,9 +602,7 @@ export function CorpusPage() {
                 src={resolveImgSrc(modalItem.image)}
                 alt={modalItem.title}
                 className="w-full h-auto rounded-lg object-contain max-h-[60vh]"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = PLACEHOLDER_IMG;
-                }}
+                onError={imgFallback}
               />
             </div>
 
