@@ -806,7 +806,7 @@ export function VisualElementsPanel({
           {/* Left: sketch with overlays */}
           <div className="relative flex-shrink-0" style={{ width: "550px" }}>
             <img
-              src={withBase("visual_elements/sketch.png")}
+              src={withBase("visual_elements/sketch.jpg")}
               alt="Visual Elements Sketch"
               className="w-full h-auto block"
               style={{ pointerEvents: "none" }}

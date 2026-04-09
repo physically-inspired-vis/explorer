@@ -260,7 +260,7 @@
               "title": "Size",
               "description": "The size of an object, including length, surface extent, or volume.",
               "details": [],
-              "image": "design_space_static/size.png",
+              "image": "design_space_static/size.jpg",
               "example": "ex-077",
               "order": 3
             }
@@ -279,7 +279,7 @@
               "title": "Shape",
               "description": "The element’s overall shape. It may be a recognizable shape (e.g., a star or a hand) or an abstract one.",
               "details": [],
-              "image": "design_space_static/shape.png",
+              "image": "design_space_static/shape.jpg",
               "example": "ex-002",
               "order": 1
             },
@@ -288,7 +288,7 @@
               "title": "Surface",
               "description": "Localized surface variation or deformation, such as bumps, folds, indentations, or extrusions.",
               "details": [],
-              "image": "design_space_static/surface.png",
+              "image": "design_space_static/surface.jpg",
               "example": "ex-036",
               "order": 2
             }
@@ -307,7 +307,7 @@
               "title": "Simple Materials",
               "description": "Clearly separated materials applied to different objects or regions, often to mark different categories or roles.",
               "details": [],
-              "image": "design_space_static/material.png",
+              "image": "design_space_static/material.jpg",
               "example": "ex-031",
               "order": 1
             },
@@ -316,7 +316,7 @@
               "title": "Material Transformations",
               "description": "From isolated material changes, such as in color or reflectance, to more complex changes that communicate physical processes, such as burning, decay, melting, or oxidation.",
               "details": [],
-              "image": "design_space_static/material_transformation.png",
+              "image": "design_space_static/material_transformation.jpg",
               "example": "ex-043",
               "order": 2
             }
@@ -335,7 +335,7 @@
               "title": "Stretching",
               "description": "The form is elongated or pulled along one or more directions.",
               "details": [],
-              "image": "design_space_static/stretch.png",
+              "image": "design_space_static/stretch.jpg",
               "example": "ex-029",
               "order": 1
             },
@@ -344,7 +344,7 @@
               "title": "Twist",
               "description": "The form is rotated along its own axis, creating torsion.",
               "details": [],
-              "image": "design_space_static/twist.png",
+              "image": "design_space_static/twist.jpg",
               "order": 2
             },
             {
@@ -380,7 +380,7 @@
               "title": "Segment / Cut",
               "description": "The form is divided into parts through slicing, cutting, or segmentation.",
               "details": [],
-              "image": "design_space_static/cut.png",
+              "image": "design_space_static/cut.jpg",
               "example": "ex-004",
               "order": 999
             }
@@ -399,7 +399,7 @@
               "title": "Count",
               "description": "The group and population focus is on the number of repeated elements.",
               "details": [],
-              "image": "design_space_static/count.png",
+              "image": "design_space_static/count.jpg",
               "example": "ex-073",
               "order": 1
             },
@@ -417,7 +417,7 @@
               "title": "Adjacent Placement",
               "description": "Elements are placed next to one another in close proximity without necessarily overlapping or forming a larger pile.",
               "details": [],
-              "image": "spatial_arrangement/adjacent_placement.png",
+              "image": "spatial_arrangement/adjacent_placement.jpg",
               "example": "ex-020",
               "order": 999
             },
@@ -426,7 +426,7 @@
               "title": "Alignment",
               "description": "Elements are arranged along a common axis or direction, creating an ordered linear structure.",
               "details": [],
-              "image": "spatial_arrangement/alignment.png",
+              "image": "spatial_arrangement/alignment.jpg",
               "example": "ex-027",
               "order": 999
             },
@@ -435,7 +435,7 @@
               "title": "Bonding",
               "description": "Elements are visually connected or attached to one another, suggesting cohesion or combination into a larger structure.",
               "details": [],
-              "image": "spatial_arrangement/bonding.png",
+              "image": "spatial_arrangement/bonding.jpg",
               "example": "ex-064",
               "order": 999
             },
@@ -444,7 +444,7 @@
               "title": "Branching",
               "description": "Elements extend outward through a tree-like or radiating structure with diverging paths or offshoots.",
               "details": [],
-              "image": "spatial_arrangement/branching.png",
+              "image": "spatial_arrangement/branching.jpg",
               "example": "ex-056",
               "order": 999
             },
@@ -453,7 +453,7 @@
               "title": "Clustering",
               "description": "Elements gather into concentrated groups around one or more focal areas.",
               "details": [],
-              "image": "spatial_arrangement/clustering.png",
+              "image": "spatial_arrangement/clustering.jpg",
               "example": "ex-005",
               "order": 999
             },
@@ -462,7 +462,7 @@
               "title": "Geographical Placement",
               "description": "Elements are positioned according to geographic location or a map-based spatial reference.",
               "details": [],
-              "image": "spatial_arrangement/geographical_placement.png",
+              "image": "spatial_arrangement/geographical_placement.jpg",
               "example": "ex-058",
               "order": 999
             },
@@ -471,7 +471,7 @@
               "title": "Packing",
               "description": "Elements fill a bounded area efficiently, typically with little unused space and minimal overlap.",
               "details": [],
-              "image": "spatial_arrangement/packing.png",
+              "image": "spatial_arrangement/packing.jpg",
               "example": "ex-055",
               "order": 999
             },
@@ -480,7 +480,7 @@
               "title": "Piling",
               "description": "Elements accumulate into a heap or mound, suggesting gravity-driven gathering or loose aggregation.",
               "details": [],
-              "image": "spatial_arrangement/piling.png",
+              "image": "spatial_arrangement/piling.jpg",
               "example": "ex-049",
               "order": 999
             },
@@ -489,7 +489,7 @@
               "title": "Scattering",
               "description": "Elements are dispersed across space in a loose or irregular distribution.",
               "details": [],
-              "image": "spatial_arrangement/scattering.png",
+              "image": "spatial_arrangement/scattering.jpg",
               "example": "ex-080",
               "order": 999
             },
@@ -498,7 +498,7 @@
               "title": "Stacking",
               "description": "Elements are layered vertically or horizontally so that they build on top of or against one another.",
               "details": [],
-              "image": "spatial_arrangement/stacking.png",
+              "image": "spatial_arrangement/stacking.jpg",
               "example": "ex-010",
               "order": 999
             },
@@ -507,7 +507,7 @@
               "title": "Topological Placement",
               "description": "Elements are positioned according to relational or network structure rather than metric distance alone.",
               "details": [],
-              "image": "spatial_arrangement/topological_placement.png",
+              "image": "spatial_arrangement/topological_placement.jpg",
               "example": "ex-087",
               "order": 999
             },
@@ -516,7 +516,7 @@
               "title": "Trajectory",
               "description": "Elements are arranged along a directional path that suggests movement or travel through space.",
               "details": [],
-              "image": "spatial_arrangement/trajectory.png",
+              "image": "spatial_arrangement/trajectory.jpg",
               "example": "ex-052",
               "order": 999
             }
