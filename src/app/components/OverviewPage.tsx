@@ -166,6 +166,18 @@ export function OverviewPage({ onTabChange }: { onTabChange?: (tab: string) => v
               />
             </div>
           </div>
+          <p className="text-sm text-muted-foreground mt-3">
+            * sketch inspired by the New York's carbon emissions{" "}
+            <a
+              href="https://physically-inspired-vis.github.io/explorer/#item=ex-081"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-foreground transition-colors"
+            >
+              video
+            </a>{" "}
+            created by Real World Visuals
+          </p>
         </Section>
 
         {/* Static vs dynamic */}

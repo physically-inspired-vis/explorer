@@ -7,7 +7,7 @@
       "dimensions": [
         {
           "id": "element-type",
-          "label": "Element Type",
+          "label": "Element Types",
           "description": "The type of the visual element.",
           "color": "#f06951",
           "icon": "icons/element.png",
