@@ -15,17 +15,28 @@ type InspirationItem = {
   title?: string;
   creator?: string;
   profile?: string;
-  physical: string[];
+  tags: string[];
   mechanisms: string[];
   link?: string;
   image: string;
 };
 
-const items = inspirationData as InspirationItem[];
+// Seeded shuffle — fixed order, not sequential by id
+function seededShuffle<T>(arr: T[], seed = 42): T[] {
+  const a = [...arr];
+  let s = seed;
+  for (let i = a.length - 1; i > 0; i--) {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    const j = Math.abs(s) % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-// Collect unique physical tags from all items, sorted alphabetically
-const allPhysicalTags = Array.from(
-  new Set(items.flatMap(item => item.physical))
+const items = seededShuffle(inspirationData as InspirationItem[]);
+
+const allTags = Array.from(
+  new Set(items.flatMap(item => item.tags))
 ).sort();
 
 export function InspirationLibraryPage() {
@@ -42,7 +53,7 @@ export function InspirationLibraryPage() {
   const filteredItems = selectedTags.length === 0
     ? items
     : items.filter(item =>
-        selectedTags.every(tag => item.physical.includes(tag))
+        selectedTags.every(tag => item.tags.includes(tag))
       );
 
   return (
@@ -51,7 +62,7 @@ export function InspirationLibraryPage() {
       {/* Filter Section */}
       <div className="mb-8 pb-6 border-b border-border">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm uppercase tracking-wider text-muted-foreground">Filter by Physical Attributes</h3>
+          <h3 className="text-sm uppercase tracking-wider text-muted-foreground">Filter by Tags</h3>
           {selectedTags.length > 0 && (
             <button
               onClick={clearFilters}
@@ -63,7 +74,7 @@ export function InspirationLibraryPage() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {allPhysicalTags.map((tag) => (
+          {allTags.map((tag) => (
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
@@ -93,7 +104,7 @@ export function InspirationLibraryPage() {
             key={item.id}
             className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col h-[420px]"
           >
-            <div className="bg-muted overflow-hidden max-h-[50%] flex-shrink-0">
+            <div className="bg-muted overflow-hidden flex-shrink-0" style={{ height: "189px" }}>
               <img
                 src={withBase(item.image)}
                 alt={item.title ?? item.id}
@@ -118,12 +129,20 @@ export function InspirationLibraryPage() {
                 </p>
               )}
 
-              {item.physical.length > 0 && (
+              {item.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {item.physical.map((tag) => (
-                    <span key={tag} className="inline-block px-3 py-1 text-xs rounded-full bg-muted">
+                  {item.tags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`inline-block px-3 py-1 text-xs rounded-full transition-colors ${
+                        selectedTags.includes(tag)
+                          ? "bg-black text-white"
+                          : "bg-muted hover:bg-muted/70"
+                      }`}
+                    >
                       {tag}
-                    </span>
+                    </button>
                   ))}
                 </div>
               )}

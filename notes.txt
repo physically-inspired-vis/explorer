@@ -9,6 +9,8 @@ node scripts/csv-to-corpus-json.mjs data/corpus.csv data/corpus.json
 
 node scripts/designspace-xlsx-to-json.mjs data/design_space.xlsx data/designspace.json
 
+node scripts/inspiration-csv-to-json.mjs data/inspiration_library.xlsx data/inspiration_library.json
+
 npm run build
 npm run preview
 

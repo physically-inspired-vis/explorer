@@ -56,7 +56,7 @@ const items = rows.slice(1)
       title: trim(r[idx.title]),
       creator: trim(r[idx.creator]),
       profile: trim(r[idx.profile]),
-      physical: parseTags(r[idx.physical]),
+      tags: parseTags(r[idx.tags]),
       mechanisms: parseTags(r[idx.mechanisms]),
       link: trim(r[idx.link]),
       image: `inspiration/${id}.png`,
