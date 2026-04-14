@@ -98,13 +98,13 @@ export function InspirationLibraryPage() {
       </div>
 
       {/* Cards Grid */}
-      <div className="grid gap-6 grid-cols-5">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {filteredItems.map((item) => (
           <div
             key={item.id}
-            className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col h-[420px]"
+            className="rounded-xl border border-border bg-card shadow-sm overflow-hidden flex flex-col"
           >
-            <div className="bg-muted overflow-hidden flex-shrink-0" style={{ height: "189px" }}>
+            <div className="bg-muted overflow-hidden flex-shrink-0 aspect-video">
               <img
                 src={withBase(item.image)}
                 alt={item.title ?? item.id}
